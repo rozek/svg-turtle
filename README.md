@@ -1,2 +1,3 @@
-# svg-turtle
- a turtle graphics library to create SVG images
+# svg-turtle #
+
+a turtle graphics library with SVG output
