@@ -124,6 +124,22 @@
     private currentJoin:TUR_Join           = 'round'
     private currentCap:TUR_Cap             = 'round'
 
+  /**** reset ****/
+
+    public reset ():Graphic {
+      this.currentX         = 0
+      this.currentY         = 0
+      this.currentDirection = 0
+
+      this.currentWidth     = 1
+      this.currentColor     = '#000000'
+      this.currentLineature = 'solid'
+      this.currentJoin      = 'round'
+      this.currentCap       = 'round'
+
+      return this
+    }
+
   /**** beginPath ****/
 
     public beginPath (PathOptionSet?:TUR_PathOptionSet):Graphic {
