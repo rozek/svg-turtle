@@ -3,6 +3,8 @@
 a turtle graphics library with SVG output
 
 
+**(this project is currently under active development, please stay tuned - it is planned to be finished by end of July)**
+
 
 
 ## Build Instructions ##
