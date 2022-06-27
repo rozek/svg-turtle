@@ -11,7 +11,7 @@ export default {
     {
       file:     './dist/svg-turtle.js',
       format:    'umd', // builds for both Node.js and Browser
-      name:      'VoltCloud', // required for UMD modules
+      name:      'SVGTurtle', // required for UMD modules
       noConflict:true,
       sourcemap: true,
       exports:   'auto',
