@@ -105,9 +105,9 @@
     ValueIsPathOptionSet, rejectNil, 'turtle path option set'
   ), expectedPathOptionSet = expectPathOptionSet
 
-/**** TUR_Graphic ****/
+/**** Graphic ****/
 
-  export class TUR_Graphic {
+  export class Graphic {
     private SVGContent:string            = ''
     private currentPath:string|undefined = undefined
 
@@ -126,8 +126,12 @@
 
   /**** beginPath ****/
 
-    public beginPath (PathOptionSet?:TUR_PathOptionSet):TUR_Graphic {
+    public beginPath (PathOptionSet?:TUR_PathOptionSet):Graphic {
       allowPathOptionSet('option set',PathOptionSet)
+
+      if (this.currentPath != null) {
+        this.endPath()
+      }
 
       if (PathOptionSet != null) {
         if ('x'         in PathOptionSet) { this.currentX         = PathOptionSet.x as TUR_Location }
@@ -146,6 +150,7 @@
       }
 
       this.currentPath = '<path ' +
+        'fill="none" ' +
         'stroke="'          + this.currentColor + '" ' +
         'stroke-width="'    + this.currentWidth + '" ' +
         'stroke-linejoin="' + this.currentJoin  + '" ' +
@@ -172,7 +177,7 @@
 
   /**** turn ****/
 
-    public turn (DirectionChange:TUR_Angle):TUR_Graphic {
+    public turn (DirectionChange:TUR_Angle):Graphic {
       expectFiniteNumber('direction change',DirectionChange)
 
       this.currentDirection += DirectionChange
@@ -182,7 +187,7 @@
 
   /**** turnTo ****/
 
-    public turnTo (Direction:TUR_Angle):TUR_Graphic {
+    public turnTo (Direction:TUR_Angle):Graphic {
       expectFiniteNumber('direction',Direction)
 
       this.currentDirection = Direction
@@ -192,13 +197,13 @@
 
   /**** move ****/
 
-    public move (Distance:TUR_Location):TUR_Graphic {
+    public move (Distance:TUR_Location):Graphic {
       expectFiniteNumber('distance',Distance)
 
-      let Direction = this.currentDirection
+      let DirectionInRadians = this.currentDirection * Math.PI/180
       this.moveTo(                                               // DRY approach
-        (this.currentX || 0) + Distance * Math.cos(Direction),
-        (this.currentY || 0) + Distance * Math.sin(Direction)
+        (this.currentX || 0) + Distance * Math.cos(DirectionInRadians),
+        (this.currentY || 0) + Distance * Math.sin(DirectionInRadians)
       )
 
       return this
@@ -206,7 +211,7 @@
 
   /**** moveTo ****/
 
-    public moveTo (x:TUR_Location, y:TUR_Location):TUR_Graphic {
+    public moveTo (x:TUR_Location, y:TUR_Location):Graphic {
       expectFiniteNumber('x coordinate',x)
       expectFiniteNumber('y coordinate',y)
 
@@ -214,7 +219,7 @@
       this.currentY = y
 
       if (this.currentPath != null) {
-        this.currentPath += 'D ' + x + ',' + y + ' '
+        this.currentPath += 'M ' + rounded(x) + ',' + rounded(y) + ' '
         this.updateBoundingBox()
       }
 
@@ -223,13 +228,13 @@
 
   /**** draw ****/
 
-    public draw (Distance:TUR_Location):TUR_Graphic {
+    public draw (Distance:TUR_Location):Graphic {
       expectFiniteNumber('distance',Distance)
 
-      let Direction = this.currentDirection
+      let DirectionInRadians = this.currentDirection * Math.PI/180
       this.drawTo(                                               // DRY approach
-        (this.currentX || 0) + Distance * Math.cos(Direction),
-        (this.currentY || 0) + Distance * Math.sin(Direction)
+        (this.currentX || 0) + Distance * Math.cos(DirectionInRadians),
+        (this.currentY || 0) + Distance * Math.sin(DirectionInRadians)
       )
 
       return this
@@ -237,16 +242,22 @@
 
   /**** drawTo ****/
 
-    public drawTo (x:TUR_Location, y:TUR_Location):TUR_Graphic {
+    public drawTo (x:TUR_Location, y:TUR_Location):Graphic {
       expectFiniteNumber('x coordinate',x)
       expectFiniteNumber('y coordinate',y)
 
       if (this.currentPath == null) {
         this.beginPath()
+
+        if (this.minX == null) {
+          this.moveTo(this.currentX,this.currentY)
+        }
       }
 
-      this.currentX = x;  this.currentPath += 'L ' + x + ',' + y + ' '
+      this.currentX = x
       this.currentY = y
+
+      this.currentPath += 'L ' + rounded(x) + ',' + rounded(y) + ' '
 
       this.updateBoundingBox()
 
@@ -257,13 +268,13 @@
 
     public curveLeft (
       Angle:TUR_Angle, rx:TUR_Dimension, ry?:TUR_Dimension
-    ):TUR_Graphic {
+    ):Graphic {
       return this.curve(Angle, rx,ry, 0 )
     }
 
     public curveRight (
       Angle:TUR_Angle, rx:TUR_Dimension, ry?:TUR_Dimension
-    ):TUR_Graphic {
+    ):Graphic {
       return this.curve(Angle, rx,ry, 1 )
     }
 
@@ -271,7 +282,7 @@
 
     private curve (
       Angle:TUR_Angle, rx:TUR_Dimension, ry:TUR_Dimension|undefined, clockwise:0|1
-    ):TUR_Graphic {
+    ):Graphic {
       expectFiniteNumber('turn angle',Angle)
       expectFiniteNumber  ('x radius',rx)
       allowFiniteNumber   ('y radius',ry)
@@ -280,28 +291,37 @@
 
       if (this.currentPath == null) {
         this.beginPath()
+
+        if (this.minX == null) {
+          this.moveTo(this.currentX,this.currentY)
+        }
       }
 
-      Angle = Angle % 360
-      if (clockwise === 1) { Angle = -Angle }
+      let AngleInRadians = Angle * Math.PI/180
 
-      let largeArc = (Angle < 180 ? 0 : 1)
+      Angle = Angle % 360
+      let largeArc = (Math.abs(Angle) < 180 ? 0 : 1)
 
       let x0 = this.currentX
       let y0 = this.currentY
 
-      let dx = rx * Math.cos(Angle) - ry * Math.sin(Angle)
-      let dy = rx * Math.sin(Angle) + ry * Math.cos(Angle)
+      let Direction          = this.currentDirection
+      let DirectionInRadians = Direction * Math.PI/180
 
-      let Direction = this.currentDirection
+      let cx = x0 + ry * Math.sin(DirectionInRadians) * (clockwise === 1 ? -1 : 1)
+      let cy = y0 + ry * Math.cos(DirectionInRadians) * (clockwise === 1 ? 1 : -1)
 
-      let x1 = x0 + dx * Math.cos(Direction) - dy * Math.sin(Direction)
-      let y1 = y0 + dx * Math.sin(Direction) + dy * Math.cos(Direction)
+      let x1 = cx + rx * Math.sin(DirectionInRadians + AngleInRadians)
+      let y1 = cy + ry * Math.cos(DirectionInRadians + AngleInRadians) * (clockwise === 1 ? -1 : 1)
 
       this.currentPath += (
-        'A ' + rx + ' ' + ry + ' ' + largeArc + ' ' + clockwise + ' ' +
-        x1 + ',' + y1
+        'A ' + rounded(rx) + ' ' + rounded(ry) + ' ' +
+        rounded(Direction) + ' ' + largeArc + ' ' +
+        (Angle >= 0 ? clockwise : (clockwise === 0 ? 1 : 0)) + ' ' +
+        rounded(x1) + ',' + rounded(y1) + ' '
       )
+
+      this.currentDirection += (Angle >= 0 ? Angle : 180+Angle) * (clockwise === 1 ? 1 : -1)
 
       this.currentX = x1
       this.currentY = y1
@@ -313,7 +333,7 @@
 
   /**** endPath ****/
 
-    public endPath ():TUR_Graphic {
+    public endPath ():Graphic {
       if (this.currentPath != null) {
         this.currentPath += '"/>'
 
@@ -326,7 +346,7 @@
 
   /**** closePath ****/
 
-    public closePath ():TUR_Graphic {
+    public closePath ():Graphic {
       if (this.currentPath != null) {
         this.currentPath += 'Z'
         this.endPath()
@@ -343,7 +363,7 @@
 
   /**** positionAt ****/
 
-    public positionAt (Position:TUR_Position):TUR_Graphic {
+    public positionAt (Position:TUR_Position):Graphic {
       allowPosition('turtle position',Position)
 
       if (this.currentPath == null) {
@@ -366,7 +386,7 @@
 
   /**** alignAt ****/
 
-    public alignAt (Alignment:TUR_Alignment):TUR_Graphic {
+    public alignAt (Alignment:TUR_Alignment):Graphic {
       allowAlignment('turtle alignment',Alignment)
 
       this.currentDirection = Alignment.Direction
@@ -393,6 +413,10 @@
       allowFiniteNumber('minimal y',yMin)
       allowFiniteNumber('maximal y',yMax)
 
+      if (this.minX == null) {  // very special case: nothing has been drawn yet
+        this.minX = this.maxX = this.minY = this.maxY = 0
+      }
+
       if (Unit == null) { Unit = 'mm' }
       if (xMin == null) { xMin = this.minX }
       if (xMax == null) { xMax = this.maxX }
@@ -407,11 +431,18 @@
       if (Width  < 0) throwError('InvalidArgument: invalid x range given')
       if (Height < 0) throwError('InvalidArgument: invalid y range given')
 
+      if (this.currentPath != null) {         // if need be: end an ongoing path
+        this.endPath()
+      }
+
       return (
         '<svg xmlns="http://www.w3.org/2000/svg" ' +
-          'width="'  + Width  + Unit + '" ' +
-          'height="' + Height + Unit + '" ' +
-          'viewbox="' + xMin + ' ' + yMin + ' ' + Width + ' ' + Height + '"' +
+          'width="'  + rounded(Width)  + Unit + '" ' +
+          'height="' + rounded(Height) + Unit + '" ' +
+// @ts-ignore TS2532 we know that xMin and yMin are defined
+          'viewbox="' + floored(xMin) + ' ' + floored(yMin) + ' ' +
+            ceiled(Width) + ' ' + ceiled(Height) + '" ' +
+            'vector-effect="non-scaling-stroke"' +
         '>' +
           this.SVGContent +
         '</svg>'
@@ -427,5 +458,23 @@
       this.minY = Math.min(this.minY as TUR_Location,this.currentY)
       this.maxY = Math.max(this.maxY as TUR_Location,this.currentY)
     }
+  }
+
+/**** rounded ****/
+
+  function rounded (Value:number):number {
+    return Math.round(Value*100)/100
+  }
+
+/**** ceiled ****/
+
+  function ceiled (Value:number):number {
+    return Math.ceil(Value*100)/100
+  }
+
+/**** floored ****/
+
+  function floored (Value:number):number {
+    return Math.floor(Value*100)/100
   }
 
