@@ -10,6 +10,22 @@ a turtle graphics library with SVG output
 
 > Just a small note: if you like this module and plan to use it, consider "starring" this repository (you will find the "Star" button on the top right of this page), so that I know which of my repositories to take most care of.
 
+## Installation ##
+
+`svg-turtle` may be used as an ECMAScript module (ESM), a CommonJS or AMD module or from a global variable.
+
+You may either install the package into your build environment using [NPM](https://docs.npmjs.com/) with the command
+
+```
+npm install svg-turtle
+```
+
+or load the plain script file directly
+
+```html
+<script src="https://unpkg.com/svg-turtle"></script>
+```
+
 
 
 ## Build Instructions ##
