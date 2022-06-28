@@ -92,20 +92,20 @@ A [trivial example](https://svelte.dev/repl/e3d91abc0a3d4a6fb2204b8e756e3b3c) is
 
 ### exported Types ###
 
-* **`type TUR_Location = number`**<br>
-* **`type TUR_Dimension = number`**<br>
-* **`type TUR_Angle = number`**<br>
-* **`type TUR_Color = string`**<br>
-* **`type TUR_Lineature = 'solid'|'dotted'|'dashed'`**<br>
-* **`type TUR_Join = 'bevel'|'miter'|'round'`**<br>
-* **`type TUR_Cap = 'butt'|'round'|'square'`**<br>
+* **`type TUR_Location = number`**<br>*(finite number, opt. signed, used for coordinates)*
+* **`type TUR_Dimension = number`**<br>*(finite positive number or 0, used for dimensions)*
+* **`type TUR_Angle = number`**<br>*(finite number, opt. signed, used for angles given in degrees)*
+* **`type TUR_Color = string`**<br>*(literal color specification, e.g. "red" or "#FF0000")*
+* **`type TUR_Lineature = 'solid'|'dotted'|'dashed'`**<br>*(specifies line type)*
+* **`type TUR_Join = 'bevel'|'miter'|'round'`**<br>*(specifies line join type)*
+* **`type TUR_Cap = 'butt'|'round'|'square'`**<br>*(specifies line end type)*
 * **`type TUR_PathOptionSet = {`**<br>
   &nbsp; **`x?:TUR_Location, y?:TUR_Location, Direction?:TUR_Angle,`**<br>
   &nbsp; **`Width?:TUR_Dimension, Color?:TUR_Color,`**<br>
   &nbsp; **`Lineature?:TUR_Lineature, Join?:TUR_Join, Cap?:TUR_Cap`**<br>
-  **`}`**<br>
-* **`type TUR_Position = { x:TUR_Location, y:TUR_Location }`**<br>
-* **`type TUR_Alignment = { x:TUR_Location, y:TUR_Location, Direction:TUR_Angle }`**<br>
+  **`}`**<br>*(may be used to initialize a new path)*
+* **`type TUR_Position = { x:TUR_Location, y:TUR_Location }`**<br>*(represents a position of the turtle)*
+* **`type TUR_Alignment = { x:TUR_Location, y:TUR_Location, Direction:TUR_Angle }`**<br>*(represents a position and orientation of the turtle)*
 
 ### Class Graphic ###
 
