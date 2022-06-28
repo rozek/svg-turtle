@@ -453,7 +453,7 @@
         this.minX = this.maxX = this.minY = this.maxY = 0
       }
 
-      if (Unit == null) { Unit = 'mm' }
+      if (Unit == null) { Unit = 'px' }
       if (xMin == null) { xMin = this.minX }
       if (xMax == null) { xMax = this.maxX }
       if (yMin == null) { yMin = this.minY }
