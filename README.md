@@ -84,7 +84,7 @@ Let's assume that you already "required" or "imported" (or simply loaded) the mo
 
 A [trivial example](https://svelte.dev/repl/e3d91abc0a3d4a6fb2204b8e756e3b3c) is available on the Svelte REPL - feel free to play with it!
 
-<svg xmlns="http://www.w3.org/2000/svg" width="20mm" height="20mm" viewbox="10 10 20 20" vector-effect="non-scaling-stroke"><path fill="none" stroke="#000000" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="none" d="M 10,10 L 20,10 A 10 10 0 0 1 30,20 L 30,30 "/></svg>
+<img src="./img/trivialExample.svg">
 
 
 
