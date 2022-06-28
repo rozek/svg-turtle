@@ -125,10 +125,10 @@ A [trivial example](https://svelte.dev/repl/e3d91abc0a3d4a6fb2204b8e756e3b3c) is
 * **`curveRight (Angle:TUR_Angle, rx:TUR_Dimension, ry?:TUR_Dimension):Graphic`**<br>*(moves the turtle drawing a clockwise circular or elliptical arc for the given angle with radius rx in the current direction and ry perpendicular to the current direction (if given, otherwise defaults to rx), positive angles move turtle forward, negative angles move it backward, turtle is finally positioned at the end of the arc and oriented tangentially to the arc, if invoked outside an active path, a new path with the current turtle position, orientation and line style is started)*
 * **`endPath ():Graphic`**<br>*(ends the currently active path, if any, idempotent)*
 * **`closedPath ():Graphic`**<br>*(closes the currently active path, if any, drawing a straight line and then ends the path, idempotent)*
-* **`currentPosition ():TUR_Position`**<br>*()*
-* **`positionAt (Position:TUR_Position):Graphic`**<br>*()*
-* **`currentAlignment ():TUR_Alignment`**<br>*()*
-* **`alignAt (Alignment:TUR_Alignment):Graphic`**<br>*()*
+* **`currentPosition ():TUR_Position`**<br>*(returns the current turtle position, may be used to explicitly move turtle to this position later)*
+* **`positionAt (Position:TUR_Position):Graphic`**<br>*(moves turtle to the given position without changing its direction)*
+* **`currentAlignment ():TUR_Alignment`**<br>*(returns the current turtle position and orientation, may be used to explicitly move turtle to this position later)*
+* **`alignAt (Alignment:TUR_Alignment):Graphic`**<br>*(moves turtle to the given position and changes its direction)*
 * **`public asSVG (`**<br>
   &nbsp; **`Unit?:'px'|'mm'|'cm'|'in',`**<br>
   &nbsp; **`xMin?:number,yMin?:number, xMax?:number,yMax?:number`**<br>
