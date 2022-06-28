@@ -107,8 +107,38 @@ A [trivial example](https://svelte.dev/repl/e3d91abc0a3d4a6fb2204b8e756e3b3c) is
 * **`type TUR_Position = { x:TUR_Location, y:TUR_Location }`**<br>
 * **`type TUR_Alignment = { x:TUR_Location, y:TUR_Location, Direction:TUR_Angle }`**<br>
 
-### public Methods of Class Graphic ###
+### Class Graphic ###
 
+*(parameterless constructor, fluent interface: many methods return the instance they act on for immediate concatenation)*
+
+* **`reset ():Graphic`**<br>
+* **`beginPath (PathOptionSet?:TUR_PathOptionSet):Graphic`**<br>
+* **`turn (DirectionChange:TUR_Angle):Graphic`**<br>
+* **`turnTo (DirectionChange:TUR_Angle):Graphic`**<br>
+* **`turnLeft (DirectionChange:TUR_Angle):Graphic`**<br>
+* **`turnRight (DirectionChange:TUR_Angle):Graphic`**<br>
+* **`move (Distance:TUR_Location):Graphic`**<br>
+* **`moveTo (x:TUR_Location, y:TUR_Location):Graphic`**<br>
+* **`draw (Distance:TUR_Location):Graphic`**<br>
+* **`drawTo (x:TUR_Location, y:TUR_Location):Graphic`**<br>
+* **`curveLeft (Angle:TUR_Angle, rx:TUR_Dimension, ry?:TUR_Dimension):Graphic`**<br>
+* **`curveRight (Angle:TUR_Angle, rx:TUR_Dimension, ry?:TUR_Dimension):Graphic`**<br>
+* **`endPath ():Graphic`**<br>
+* **`closedPath ():Graphic`**<br>
+* **`currentPosition ():TUR_Position`**<br>
+* **`positionAt (Position:TUR_Position):Graphic`**<br>
+* **`currentAlignment ():TUR_Alignment`**<br>
+* **`alignAt (Alignment:TUR_Alignment):Graphic`**<br>
+* **`public asSVG (`**<br>
+  &nbsp; **`Unit?:'px'|'mm'|'cm'|'in',`**<br>
+  &nbsp; **`xMin?:number,yMin?:number, xMax?:number,yMax?:number`**<br>
+  **`):string`**<br>
+* **`public asSVGwith72dpi (`**<br>
+  &nbsp; **`Unit?:'px'|'mm'|'cm'|'in',`**<br>
+  &nbsp; **`xMin?:number,yMin?:number, xMax?:number,yMax?:number`**<br>
+  **`):string`**<br>
+* **``**<br>
+* **``**<br>
 
 ## Usage with "Cricut Design Space" ##
 
