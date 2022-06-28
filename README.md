@@ -30,9 +30,9 @@ or load the plain script file directly
 
 How to access the package depends on the type of module you prefer
 
-* ESM (or Svelte): `import Graphic from 'svg-turtle'`
-* CommonJS: `const Graphic = require('svg-turtle').Graphic`
-* AMD: `require(['svg-turtle'], (SVGTurtle) => { let Graphic = SVGTurtle.Graphic; ...})`
+* ESM (or Svelte): `import { Graphic } from 'svg-turtle'`
+* CommonJS: `const SVGTurtle = require('svg-turtle')`
+* AMD: `require(['svg-turtle'], (SVGTurtle) => {...})`
 
 Alternatively, you may access the global variable `SVGTurtle` directly.
 
