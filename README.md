@@ -50,13 +50,37 @@ For Svelte it is recommended to import the package within a module context:
 </script>
 ```
 
-## Usage as ECMAscript, CommonJS or AMD Module (or as a global Variable) ##
+## Usage as ECMAscript Module ##
+
+If you prefer ESMs, you will presumably also use a bundler (such as [rollup](https://rollupjs.org/guide/en/) or [webpack](https://webpack.js.org/)) to resolve any transitive dependencies and perform some "tree-shaking" to eliminate unnecessary parts (`svg-turtle` is fully tree-shakable). In this case, just import what you need and use it - your bundler will do the rest:
+
+```html
+<script>
+  import { Graphic } from 'svg-turtle'
+
+  window.onload = function () {
+    Graphic.moveTo(10,10).draw(20)
+    ...
+  }
+</script>
+```
+
+## Usage as CommonJS or AMD Module (or as a global Variable) ##
 
 Let's assume that you already "required" or "imported" (or simply loaded) the module according to your local environment. In that case, you may use it as follows:
 
-```javascript
-Graphic.moveTo(10,10).draw(20)
+```html
+<script>
+  const { Graphic } = SVGTurtle
+
+  window.onload = function () {
+    Graphic.moveTo(10,10).draw(20)
+    ...
+  }
+</script>
 ```
+
+
 
 
 
