@@ -84,7 +84,7 @@ Let's assume that you already "required" or "imported" (or simply loaded) the mo
 
 ## Example ##
 
-A [trivial example](https://svelte.dev/repl/e3d91abc0a3d4a6fb2204b8e756e3b3c) is available on the Svelte REPL - feel free to play with it!
+A [simple example](https://svelte.dev/repl/e3d91abc0a3d4a6fb2204b8e756e3b3c) is available on the Svelte REPL - feel free to play with it!
 
 <img src="./img/simpleExample.png" alt="simple Example"/>
 
