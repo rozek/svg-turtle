@@ -26,6 +26,16 @@ or load the plain script file directly
 <script src="https://unpkg.com/svg-turtle"></script>
 ```
 
+## Access ##
+
+How to access the package depends on the type of module you prefer
+
+* ESM (or Svelte): `import Graphic from 'svg-turtle'`
+* CommonJS: `const Graphic = require('svg-turtle').Graphic`
+* AMD: `require(['svg-turtle'], (SVGTurtle) => {...})`
+
+Alternatively, you may access the global variable `SVGTurtle` directly.
+
 
 
 ## Build Instructions ##
