@@ -476,7 +476,7 @@
           'width="'  + rounded(Width)  + Unit + '" ' +
           'height="' + rounded(Height) + Unit + '" ' +
 // @ts-ignore TS2532 we know that xMin and yMin are defined
-          'viewbox="' + floored(xMin) + ' ' + floored(yMin) + ' ' +
+          'viewBox="' + floored(xMin) + ' ' + floored(yMin) + ' ' +
             ceiled(Width) + ' ' + ceiled(Height) + '" ' +
           'vector-effect="non-scaling-stroke"' +
         '>' +
@@ -505,7 +505,7 @@
       return (
         '<svg xmlns="http://www.w3.org/2000/svg" ' +
 // @ts-ignore TS2532 we know that xMin and yMin are defined
-          'viewbox="' + floored(Scale*xMin) + ' ' + floored(Scale*yMin) + ' ' +
+          'viewBox="' + floored(Scale*xMin) + ' ' + floored(Scale*yMin) + ' ' +
 // @ts-ignore TS2532 we know that xMin,xMax,yMin and yMax are defined
             ceiled(Scale*(xMax-xMin)) + ' ' + ceiled(Scale*(yMax-yMin)) + '" ' +
           'vector-effect="non-scaling-stroke"' +
