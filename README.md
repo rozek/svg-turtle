@@ -2,7 +2,7 @@
 
 a turtle graphics library with SVG output
 
-`svg-turtle` is a small JavaScript library (based on TypeScript) to create [turtle graphics](https://en.wikipedia.org/wiki/Turtle_graphics) with [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics) output. While it may well be used to create "ordinary" graphics, it is primarily intended to create projects for cutting plotters
+`svg-turtle` is a small JavaScript library (based on TypeScript) to create [turtle graphics](https://en.wikipedia.org/wiki/Turtle_graphics) with [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics) output. While it may well be used to create "ordinary" graphics, it is primarily intended to create projects for cutting plotters.
 
 **(this project is currently under active development, please stay tuned - it is planned to be finished by end of July)**
 
@@ -46,20 +46,20 @@ For Svelte it is recommended to import the package within a module context:
 </script>
 
 <script>
-  Graphic.moveTo(10,10).draw(20)
+  let SVG = new Graphic().moveTo(10,10).draw(10).curveRight(90,10).draw(10).asSVG()
 </script>
 ```
 
 ## Usage as ECMAscript Module ##
 
-If you prefer ESMs, you will presumably also use a bundler (such as [rollup](https://rollupjs.org/guide/en/) or [webpack](https://webpack.js.org/)) to resolve any transitive dependencies and perform some "tree-shaking" to eliminate unnecessary parts (`svg-turtle` is fully tree-shakable). In this case, just import what you need and use it - your bundler will do the rest:
+If you prefer ESMs, just import the library and use it:
 
 ```html
 <script>
   import { Graphic } from 'svg-turtle'
 
   window.onload = function () {
-    Graphic.moveTo(10,10).draw(20)
+    let SVG = new Graphic().moveTo(10,10).draw(10).curveRight(90,10).draw(10).asSVG()
     ...
   }
 </script>
@@ -74,11 +74,17 @@ Let's assume that you already "required" or "imported" (or simply loaded) the mo
   const { Graphic } = SVGTurtle
 
   window.onload = function () {
-    Graphic.moveTo(10,10).draw(20)
+    let SVG = new Graphic().moveTo(10,10).draw(10).curveRight(90,10).draw(10).asSVG()
     ...
   }
 </script>
 ```
+
+## Example ##
+
+A [trivial example](https://svelte.dev/repl/e3d91abc0a3d4a6fb2204b8e756e3b3c) is available on the Svelte REPL - feel free to play with it!
+
+<svg xmlns="http://www.w3.org/2000/svg" width="20mm" height="20mm" viewbox="10 10 20 20" vector-effect="non-scaling-stroke"><path fill="none" stroke="#000000" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="none" d="M 10,10 L 20,10 A 10 10 0 0 1 30,20 L 30,30 "/></svg>
 
 
 
