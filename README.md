@@ -113,18 +113,18 @@ A [trivial example](https://svelte.dev/repl/e3d91abc0a3d4a6fb2204b8e756e3b3c) is
 
 * **`reset ():Graphic`**<br>*(sets turtle position, orientation and line options to their defaults)*
 * **`beginPath (PathOptionSet?:TUR_PathOptionSet):Graphic`**<br>*(starts a new path, beginning with current turtle position,  orientation and line options overwritten by any settings from PathOptionSet)*
-* **`turn (Anglee:TUR_Angle):Graphic`**<br>*(rotates turtle relatively by given Angle given in degrees, positive angles turn clockwise, negative counterclockwise)*
-* **`turnTo (Angle:TUR_Angle):Graphic`**<br>*(rotates turtle absolutely to given Angle given in degrees - measured from the x-axis, positive angles turn clockwise, negative counterclockwise)*
-* **`turnLeft (Angle:TUR_Angle):Graphic`**<br>*(rotates turtle counterclockwise by given Angle given in degrees, equivalent to turn(-Angle))*
-* **`turnRight (Angle:TUR_Angle):Graphic`**<br>*(rotates turtle clockwise by given Angle given in degrees, synonym for turn(Angle))*
-* **`move (Distance:TUR_Location):Graphic`**<br>*(moves turtle relatively in the current direction for Distance units without drawing, positive distances move forward, negative distances move backward keeping the original orientation)*
-* **`moveTo (x:TUR_Location, y:TUR_Location):Graphic`**<br>*(moves turtle aboslutely to the given position without drawing and keeping its current orientation)*
-* **`draw (Distance:TUR_Location):Graphic`**<br>*(moves turtle relatively in the current direction for Distance units drawing a straight line beginning at the current position, positive distances move forward, negative distances move backward keeping the original orientation)*
-* **`drawTo (x:TUR_Location, y:TUR_Location):Graphic`**<br>*(moves turtle aboslutely to the given position drawing a straight line beginning at the current position and keeping its current orientation)*
-* **`curveLeft (Angle:TUR_Angle, rx:TUR_Dimension, ry?:TUR_Dimension):Graphic`**<br>*()*
-* **`curveRight (Angle:TUR_Angle, rx:TUR_Dimension, ry?:TUR_Dimension):Graphic`**<br>*()*
-* **`endPath ():Graphic`**<br>*()*
-* **`closedPath ():Graphic`**<br>*()*
+* **`turn (Anglee:TUR_Angle):Graphic`**<br>*(rotates turtle relatively by given Angle given in degrees, positive angles turn clockwise, negative counterclockwise, may be invoked outside an active path)*
+* **`turnTo (Angle:TUR_Angle):Graphic`**<br>*(rotates turtle absolutely to given Angle given in degrees - measured from the x-axis, positive angles turn clockwise, negative counterclockwise, may be invoked outside an active path)*
+* **`turnLeft (Angle:TUR_Angle):Graphic`**<br>*(rotates turtle counterclockwise by given Angle given in degrees, equivalent to turn(-Angle), may be invoked outside an active path)*
+* **`turnRight (Angle:TUR_Angle):Graphic`**<br>*(rotates turtle clockwise by given Angle given in degrees, synonym for turn(Angle), may be invoked outside an active path)*
+* **`move (Distance:TUR_Location):Graphic`**<br>*(moves turtle relatively in the current direction for Distance units without drawing, positive distances move forward, negative distances move backward keeping the original orientation, may be invoked outside an active path)*
+* **`moveTo (x:TUR_Location, y:TUR_Location):Graphic`**<br>*(moves turtle aboslutely to the given position without drawing and keeping its current orientation, may be invoked outside an active path)*
+* **`draw (Distance:TUR_Location):Graphic`**<br>*(moves turtle relatively in the current direction for Distance units drawing a straight line beginning at the current position, positive distances move forward, negative distances move backward keeping the original orientation, if invoked outside an active path, a new path with the current turtle position, orientation and line style is started)*
+* **`drawTo (x:TUR_Location, y:TUR_Location):Graphic`**<br>*(moves turtle aboslutely to the given position drawing a straight line beginning at the current position and keeping its current orientation, if invoked outside an active path, a new path with the current turtle position, orientation and line style is started)*
+* **`curveLeft (Angle:TUR_Angle, rx:TUR_Dimension, ry?:TUR_Dimension):Graphic`**<br>*(moves the turtle drawing a counterclockwise circular or elliptical arc for the given angle with radius rx in the current direction and ry perpendicular to the current direction (if given, otherwise defaults to rx), positive angles move turtle forward, negative angles move it backward, turtle is finally positioned at the end of the arc and oriented tangentially to the arc, if invoked outside an active path, a new path with the current turtle position, orientation and line style is started)*
+* **`curveRight (Angle:TUR_Angle, rx:TUR_Dimension, ry?:TUR_Dimension):Graphic`**<br>*(moves the turtle drawing a clockwise circular or elliptical arc for the given angle with radius rx in the current direction and ry perpendicular to the current direction (if given, otherwise defaults to rx), positive angles move turtle forward, negative angles move it backward, turtle is finally positioned at the end of the arc and oriented tangentially to the arc, if invoked outside an active path, a new path with the current turtle position, orientation and line style is started)*
+* **`endPath ():Graphic`**<br>*(ends the currently active path, if any, idempotent)*
+* **`closedPath ():Graphic`**<br>*(closes the currently active path, if any, drawing a straight line and then ends the path, idempotent)*
 * **`currentPosition ():TUR_Position`**<br>*()*
 * **`positionAt (Position:TUR_Position):Graphic`**<br>*()*
 * **`currentAlignment ():TUR_Alignment`**<br>*()*
