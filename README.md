@@ -46,7 +46,7 @@ For Svelte it is recommended to import the package within a module context:
 </script>
 
 <script>
-  Graphic.moveTo(10,10).draw(20)
+  let SVG = (new Graphic()).moveTo(10,10).draw(20).asSVG()
 </script>
 ```
 
@@ -59,7 +59,7 @@ If you prefer ESMs, you will presumably also use a bundler (such as [rollup](htt
   import { Graphic } from 'svg-turtle'
 
   window.onload = function () {
-    Graphic.moveTo(10,10).draw(20)
+    let SVG = (new Graphic()).moveTo(10,10).draw(20).asSVG()
     ...
   }
 </script>
@@ -74,7 +74,7 @@ Let's assume that you already "required" or "imported" (or simply loaded) the mo
   const { Graphic } = SVGTurtle
 
   window.onload = function () {
-    Graphic.moveTo(10,10).draw(20)
+    let SVG = (new Graphic()).moveTo(10,10).draw(20).asSVG()
     ...
   }
 </script>
