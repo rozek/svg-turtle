@@ -32,9 +32,33 @@ How to access the package depends on the type of module you prefer
 
 * ESM (or Svelte): `import Graphic from 'svg-turtle'`
 * CommonJS: `const Graphic = require('svg-turtle').Graphic`
-* AMD: `require(['svg-turtle'], (SVGTurtle) => {...})`
+* AMD: `require(['svg-turtle'], (SVGTurtle) => { let Graphic = SVGTurtle.Graphic; ...})`
 
 Alternatively, you may access the global variable `SVGTurtle` directly.
+
+## Usage within Svelte ##
+
+For Svelte it is recommended to import the package within a module context:
+
+```html
+<script context="module">
+  import Graphic from 'svg-turtle'
+</script>
+
+<script>
+  Graphic.moveTo(10,10).draw(20)
+</script>
+```
+
+## Usage as ECMAscript, CommonJS or AMD Module (or as a global Variable) ##
+
+Let's assume that you already "required" or "imported" (or simply loaded) the module according to your local environment. In that case, you may use it as follows:
+
+```javascript
+Graphic.moveTo(10,10).draw(20)
+```
+
+
 
 
 
