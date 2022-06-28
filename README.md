@@ -137,8 +137,6 @@ A [trivial example](https://svelte.dev/repl/e3d91abc0a3d4a6fb2204b8e756e3b3c) is
   &nbsp; **`Unit?:'px'|'mm'|'cm'|'in',`**<br>
   &nbsp; **`xMin?:number,yMin?:number, xMax?:number,yMax?:number`**<br>
   **`):string`**<br>
-* **``**<br>
-* **``**<br>
 
 ## Usage with "Cricut Design Space" ##
 
