@@ -211,6 +211,26 @@
       return this
     }
 
+  /**** turnLeft ****/
+
+    public turnLeft (DirectionChange:TUR_Angle):Graphic {
+      expectFiniteNumber('direction change',DirectionChange)
+
+      this.currentDirection -= DirectionChange
+
+      return this
+    }
+
+  /**** turnRight ****/
+
+    public turnRight (DirectionChange:TUR_Angle):Graphic {
+      expectFiniteNumber('direction change',DirectionChange)
+
+      this.currentDirection += DirectionChange
+
+      return this
+    }
+
   /**** move ****/
 
     public move (Distance:TUR_Location):Graphic {
