@@ -2,8 +2,87 @@
 
 a turtle graphics library with SVG output
 
+`svg-turtle` is a small JavaScript library (based on TypeScript) to create [turtle graphics](https://en.wikipedia.org/wiki/Turtle_graphics) with [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics) output. While it may well be used to create "ordinary" graphics, it is primarily intended to create projects for cutting plotters
 
 **(this project is currently under active development, please stay tuned - it is planned to be finished by end of July)**
+
+**NPM users**: please consider the [Github README](https://github.com/rozek/svg-turtle/blob/main/README.md) for the latest description of this package (as updating the docs would otherwise always require a new NPM package version)
+
+> Just a small note: if you like this module and plan to use it, consider "starring" this repository (you will find the "Star" button on the top right of this page), so that I know which of my repositories to take most care of.
+
+## Installation ##
+
+`svg-turtle` may be used as an ECMAScript module (ESM), a CommonJS or AMD module or from a global variable.
+
+You may either install the package into your build environment using [NPM](https://docs.npmjs.com/) with the command
+
+```
+npm install svg-turtle
+```
+
+or load the plain script file directly
+
+```html
+<script src="https://unpkg.com/svg-turtle"></script>
+```
+
+## Access ##
+
+How to access the package depends on the type of module you prefer
+
+* ESM (or Svelte): `import { Graphic } from 'svg-turtle'`
+* CommonJS: `const SVGTurtle = require('svg-turtle')`
+* AMD: `require(['svg-turtle'], (SVGTurtle) => {...})`
+
+Alternatively, you may access the global variable `SVGTurtle` directly.
+
+## Usage within Svelte ##
+
+For Svelte it is recommended to import the package within a module context:
+
+```html
+<script context="module">
+  import Graphic from 'svg-turtle'
+</script>
+
+<script>
+  Graphic.moveTo(10,10).draw(20)
+</script>
+```
+
+## Usage as ECMAscript Module ##
+
+If you prefer ESMs, you will presumably also use a bundler (such as [rollup](https://rollupjs.org/guide/en/) or [webpack](https://webpack.js.org/)) to resolve any transitive dependencies and perform some "tree-shaking" to eliminate unnecessary parts (`svg-turtle` is fully tree-shakable). In this case, just import what you need and use it - your bundler will do the rest:
+
+```html
+<script>
+  import { Graphic } from 'svg-turtle'
+
+  window.onload = function () {
+    Graphic.moveTo(10,10).draw(20)
+    ...
+  }
+</script>
+```
+
+## Usage as CommonJS or AMD Module (or as a global Variable) ##
+
+Let's assume that you already "required" or "imported" (or simply loaded) the module according to your local environment. In that case, you may use it as follows:
+
+```html
+<script>
+  const { Graphic } = SVGTurtle
+
+  window.onload = function () {
+    Graphic.moveTo(10,10).draw(20)
+    ...
+  }
+</script>
+```
+
+
+
+
 
 
 
