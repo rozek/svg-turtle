@@ -478,10 +478,41 @@
 // @ts-ignore TS2532 we know that xMin and yMin are defined
           'viewbox="' + floored(xMin) + ' ' + floored(yMin) + ' ' +
             ceiled(Width) + ' ' + ceiled(Height) + '" ' +
-            'vector-effect="non-scaling-stroke"' +
+          'vector-effect="non-scaling-stroke"' +
         '>' +
           this.SVGContent +
         '</svg>'
+      )
+    }
+
+  /**** asSVGwith72dpi ****/
+
+    public asSVGwith72dpi (
+      Unit?:'px'|'mm'|'cm'|'in',
+      xMin?:number,yMin?:number, xMax?:number,yMax?:number
+    ):string {
+      let SVG = this.asSVG(Unit, xMin,yMin, xMax,yMax)   // also validates arg.s
+
+      let Scale = 72 / {
+        'px':25.4, 'mm':25.4, 'cm':2.54, 'in':1
+      }[Unit || 'mm']
+
+      if (xMin == null) { xMin = this.minX }
+      if (xMax == null) { xMax = this.maxX }
+      if (yMin == null) { yMin = this.minY }
+      if (yMax == null) { yMax = this.maxY }
+
+      return (
+        '<svg xmlns="http://www.w3.org/2000/svg" ' +
+// @ts-ignore TS2532 we know that xMin and yMin are defined
+          'viewbox="' + floored(Scale*xMin) + ' ' + floored(Scale*yMin) + ' ' +
+// @ts-ignore TS2532 we know that xMin,xMax,yMin and yMax are defined
+            ceiled(Scale*(xMax-xMin)) + ' ' + ceiled(Scale*(yMax-yMin)) + '" ' +
+          'vector-effect="non-scaling-stroke"' +
+        '>' +
+        '<g transform="scale(' + Scale + ',' + Scale + ')">' +
+          SVG +
+        '</g></svg>'
       )
     }
 
