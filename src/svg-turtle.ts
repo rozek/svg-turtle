@@ -184,9 +184,7 @@
         }
       this.currentPath += 'd="'
 
-      if ((this.currentX !== 0) || (this.currentY !== 0)) {
-        this.moveTo(this.currentX,this.currentY)
-      }
+      this.moveTo(this.currentX,this.currentY)
 
       return this
     }
@@ -284,10 +282,6 @@
 
       if (this.currentPath == null) {
         this.beginPath()
-
-        if (this.minX == null) {
-          this.moveTo(this.currentX,this.currentY)
-        }
       }
 
       this.currentX = x
@@ -327,10 +321,6 @@
 
       if (this.currentPath == null) {
         this.beginPath()
-
-        if (this.minX == null) {
-          this.moveTo(this.currentX,this.currentY)
-        }
       }
 
       let AngleInRadians = Angle * Math.PI/180
@@ -343,12 +333,18 @@
 
       let Direction          = this.currentDirection
       let DirectionInRadians = Direction * Math.PI/180
+      let NormalInRadians    = DirectionInRadians + (clockwise === 1 ? Math.PI/2 : -Math.PI/2)
 
-      let cx = x0 + ry * Math.sin(DirectionInRadians) * (clockwise === 1 ? -1 : 1)
-      let cy = y0 + ry * Math.cos(DirectionInRadians) * (clockwise === 1 ? 1 : -1)
+      let cx = x0 + ry * Math.cos(NormalInRadians)
+      let cy = y0 + ry * Math.sin(NormalInRadians)
 
-      let x1 = cx + rx * Math.sin(DirectionInRadians + AngleInRadians)
-      let y1 = cy + ry * Math.cos(DirectionInRadians + AngleInRadians) * (clockwise === 1 ? -1 : 1)
+      let RotationInRadians = (
+        DirectionInRadians - (clockwise === 1 ? Math.PI/2 : -Math.PI/2) +
+        AngleInRadians * (clockwise === 1 ? 1 : -1)
+      )
+
+      let x1 = cx + rx * Math.cos(RotationInRadians)
+      let y1 = cy + ry * Math.sin(RotationInRadians)
 
       this.currentPath += (
         'A ' + rounded(rx) + ' ' + rounded(ry) + ' ' +
