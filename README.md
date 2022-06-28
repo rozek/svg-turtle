@@ -86,16 +86,35 @@ A [trivial example](https://svelte.dev/repl/e3d91abc0a3d4a6fb2204b8e756e3b3c) is
 
 <img src="./img/trivialExample.png" alt="trivial Example"/>
 
-### JavaScript API ###
+## API Reference ##
+
+*(graphic represented by instance of class Graphic, may contain multiple paths, usual workflow: instantiate, define paths, render as SVG, if need be: with proper scaling for cutting plotters 72dpi)*
+
+### exported Types ###
+
+* **`type TUR_Location = number`**<br>
+* **`type TUR_Dimension = number`**<br>
+* **`type TUR_Angle = number`**<br>
+* **`type TUR_Color = string`**<br>
+* **`type TUR_Lineature = 'solid'|'dotted'|'dashed'`**<br>
+* **`type TUR_Join = 'bevel'|'miter'|'round'`**<br>
+* **`type TUR_Cap = 'butt'|'round'|'square'`**<br>
+* **`type TUR_PathOptionSet = {`**<br>
+  **`  x?:TUR_Location, y?:TUR_Location, Direction?:TUR_Angle,`**<br>
+  **`  Width?:TUR_Dimension, Color?:TUR_Color,`**<br>
+  **`  Lineature?:TUR_Lineature, Join?:TUR_Join, Cap?:TUR_Cap`**<br>
+  **`}`**`**<br>
+* **`type TUR_Position = { x:TUR_Location, y:TUR_Location }`**<br>
+* **`type TUR_Alignment = { x:TUR_Location, y:TUR_Location, Direction:TUR_Angle }`**<br>
+
+### public Methods of Class Graphic ###
 
 
-
-
-### Usage with "Cricut Design Space" ###
+## Usage with "Cricut Design Space" ##
 
 The "Cricut Design Space" does not respect any units given in an SVG's `width` and `height` attributes but expects the numeric coordinates to be multiples of 1/72 of an inch. It is therefore recommended to export any turtle graphics using the `asSVGwith72dpi` method which scales the output as required by the application.
 
-(upload SVG, place on canvas, "detach" into separate paths, select paths and assign tools, if need be: duplicate and align - e.g., for multiple scoring rounds, attach all paths again for proper positioning on mat)
+*(upload SVG, place on canvas, "detach" into separate paths, select paths and assign tools, if need be: duplicate and align - e.g., for multiple scoring rounds, attach all paths again for proper positioning on mat)*
 
 
 ## Build Instructions ##
