@@ -1,6 +1,6 @@
 {
   "name": "svg-turtle",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "a turtle graphics library with SVG output",
   "type": "module",
   "main": "./dist/svg-turtle.js",
