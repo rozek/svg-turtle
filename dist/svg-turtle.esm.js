@@ -398,9 +398,7 @@ var Graphic = /** @class */ (function () {
                 this.currentPath += 'stroke-dasharray="none" ';
         }
         this.currentPath += 'd="';
-        if ((this.currentX !== 0) || (this.currentY !== 0)) {
-            this.moveTo(this.currentX, this.currentY);
-        }
+        this.moveTo(this.currentX, this.currentY);
         return this;
     };
     /**** turn ****/
@@ -461,9 +459,6 @@ var Graphic = /** @class */ (function () {
         expectFiniteNumber('y coordinate', y);
         if (this.currentPath == null) {
             this.beginPath();
-            if (this.minX == null) {
-                this.moveTo(this.currentX, this.currentY);
-            }
         }
         this.currentX = x;
         this.currentY = y;
@@ -488,9 +483,6 @@ var Graphic = /** @class */ (function () {
         }
         if (this.currentPath == null) {
             this.beginPath();
-            if (this.minX == null) {
-                this.moveTo(this.currentX, this.currentY);
-            }
         }
         var AngleInRadians = Angle * Math.PI / 180;
         Angle = Angle % 360;
@@ -499,10 +491,13 @@ var Graphic = /** @class */ (function () {
         var y0 = this.currentY;
         var Direction = this.currentDirection;
         var DirectionInRadians = Direction * Math.PI / 180;
-        var cx = x0 + ry * Math.sin(DirectionInRadians) * (clockwise === 1 ? -1 : 1);
-        var cy = y0 + ry * Math.cos(DirectionInRadians) * (clockwise === 1 ? 1 : -1);
-        var x1 = cx + rx * Math.sin(DirectionInRadians + AngleInRadians);
-        var y1 = cy + ry * Math.cos(DirectionInRadians + AngleInRadians) * (clockwise === 1 ? -1 : 1);
+        var NormalInRadians = DirectionInRadians + (clockwise === 1 ? Math.PI / 2 : -Math.PI / 2);
+        var cx = x0 + ry * Math.cos(NormalInRadians);
+        var cy = y0 + ry * Math.sin(NormalInRadians);
+        var RotationInRadians = (DirectionInRadians - (clockwise === 1 ? Math.PI / 2 : -Math.PI / 2) +
+            AngleInRadians * (clockwise === 1 ? 1 : -1));
+        var x1 = cx + rx * Math.cos(RotationInRadians);
+        var y1 = cy + ry * Math.sin(RotationInRadians);
         this.currentPath += ('A ' + rounded(rx) + ' ' + rounded(ry) + ' ' +
             rounded(Direction) + ' ' + largeArc + ' ' +
             (Angle >= 0 ? clockwise : (clockwise === 0 ? 1 : 0)) + ' ' +
