@@ -52,7 +52,7 @@ For Svelte it is recommended to import the package within a module context:
 
 ## Usage as ECMAscript Module ##
 
-If you prefer ESMs, you will presumably also use a bundler (such as [rollup](https://rollupjs.org/guide/en/) or [webpack](https://webpack.js.org/)) to resolve any transitive dependencies and perform some "tree-shaking" to eliminate unnecessary parts (`svg-turtle` is fully tree-shakable). In this case, just import what you need and use it - your bundler will do the rest:
+If you prefer ESMs, just import the library and use it:
 
 ```html
 <script>
