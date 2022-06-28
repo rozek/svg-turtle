@@ -111,32 +111,32 @@ A [trivial example](https://svelte.dev/repl/e3d91abc0a3d4a6fb2204b8e756e3b3c) is
 
 *(parameterless constructor, fluent interface: many methods return the instance they act on for immediate concatenation)*
 
-* **`reset ():Graphic`**<br>
-* **`beginPath (PathOptionSet?:TUR_PathOptionSet):Graphic`**<br>
-* **`turn (DirectionChange:TUR_Angle):Graphic`**<br>
-* **`turnTo (DirectionChange:TUR_Angle):Graphic`**<br>
-* **`turnLeft (DirectionChange:TUR_Angle):Graphic`**<br>
-* **`turnRight (DirectionChange:TUR_Angle):Graphic`**<br>
-* **`move (Distance:TUR_Location):Graphic`**<br>
-* **`moveTo (x:TUR_Location, y:TUR_Location):Graphic`**<br>
-* **`draw (Distance:TUR_Location):Graphic`**<br>
-* **`drawTo (x:TUR_Location, y:TUR_Location):Graphic`**<br>
-* **`curveLeft (Angle:TUR_Angle, rx:TUR_Dimension, ry?:TUR_Dimension):Graphic`**<br>
-* **`curveRight (Angle:TUR_Angle, rx:TUR_Dimension, ry?:TUR_Dimension):Graphic`**<br>
-* **`endPath ():Graphic`**<br>
-* **`closedPath ():Graphic`**<br>
-* **`currentPosition ():TUR_Position`**<br>
-* **`positionAt (Position:TUR_Position):Graphic`**<br>
-* **`currentAlignment ():TUR_Alignment`**<br>
-* **`alignAt (Alignment:TUR_Alignment):Graphic`**<br>
+* **`reset ():Graphic`**<br>*(sets turtle position, orientation and line options to their defaults)*
+* **`beginPath (PathOptionSet?:TUR_PathOptionSet):Graphic`**<br>*(starts a new path, beginning with current turtle position,  orientation and line options overwritten by any settings from PathOptionSet)*
+* **`turn (Anglee:TUR_Angle):Graphic`**<br>*(rotates turtle relatively by given Angle given in degrees, positive angles turn clockwise, negative counterclockwise)*
+* **`turnTo (Angle:TUR_Angle):Graphic`**<br>*(rotates turtle absolutely to given Angle given in degrees - measured from the x-axis, positive angles turn clockwise, negative counterclockwise)*
+* **`turnLeft (Angle:TUR_Angle):Graphic`**<br>*(rotates turtle counterclockwise by given Angle given in degrees, equivalent to turn(-Angle))*
+* **`turnRight (Angle:TUR_Angle):Graphic`**<br>*(rotates turtle clockwise by given Angle given in degrees, synonym for turn(Angle))*
+* **`move (Distance:TUR_Location):Graphic`**<br>*(moves turtle relatively in the current direction for Distance units without drawing, positive distances move forward, negative distances move backward keeping the original orientation)*
+* **`moveTo (x:TUR_Location, y:TUR_Location):Graphic`**<br>*(moves turtle aboslutely to the given position without drawing and keeping its current orientation)*
+* **`draw (Distance:TUR_Location):Graphic`**<br>*(moves turtle relatively in the current direction for Distance units drawing a straight line beginning at the current position, positive distances move forward, negative distances move backward keeping the original orientation)*
+* **`drawTo (x:TUR_Location, y:TUR_Location):Graphic`**<br>*(moves turtle aboslutely to the given position drawing a straight line beginning at the current position and keeping its current orientation)*
+* **`curveLeft (Angle:TUR_Angle, rx:TUR_Dimension, ry?:TUR_Dimension):Graphic`**<br>*()*
+* **`curveRight (Angle:TUR_Angle, rx:TUR_Dimension, ry?:TUR_Dimension):Graphic`**<br>*()*
+* **`endPath ():Graphic`**<br>*()*
+* **`closedPath ():Graphic`**<br>*()*
+* **`currentPosition ():TUR_Position`**<br>*()*
+* **`positionAt (Position:TUR_Position):Graphic`**<br>*()*
+* **`currentAlignment ():TUR_Alignment`**<br>*()*
+* **`alignAt (Alignment:TUR_Alignment):Graphic`**<br>*()*
 * **`public asSVG (`**<br>
   &nbsp; **`Unit?:'px'|'mm'|'cm'|'in',`**<br>
   &nbsp; **`xMin?:number,yMin?:number, xMax?:number,yMax?:number`**<br>
-  **`):string`**<br>
+  **`):string`**<br>*()*
 * **`public asSVGwith72dpi (`**<br>
   &nbsp; **`Unit?:'px'|'mm'|'cm'|'in',`**<br>
   &nbsp; **`xMin?:number,yMin?:number, xMax?:number,yMax?:number`**<br>
-  **`):string`**<br>
+  **`):string`**<br>*()*
 
 ## Usage with "Cricut Design Space" ##
 
