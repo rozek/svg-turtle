@@ -4,6 +4,8 @@ a turtle graphics library with SVG output
 
 `svg-turtle` is a small JavaScript library (based on TypeScript) to create [turtle graphics](https://en.wikipedia.org/wiki/Turtle_graphics) with [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics) output. While it may well be used to create "ordinary" graphics, it is primarily intended to create projects for cutting plotters.
 
+<img src="./img/simpleBox.png" alt="simple box"/>
+
 **(this project is currently under active development, please stay tuned - it is planned to be finished by end of July)**
 
 **NPM users**: please consider the [Github README](https://github.com/rozek/svg-turtle/blob/main/README.md) for the latest description of this package (as updating the docs would otherwise always require a new NPM package version)
