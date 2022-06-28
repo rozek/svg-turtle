@@ -100,10 +100,10 @@ A [trivial example](https://svelte.dev/repl/e3d91abc0a3d4a6fb2204b8e756e3b3c) is
 * **`type TUR_Join = 'bevel'|'miter'|'round'`**<br>
 * **`type TUR_Cap = 'butt'|'round'|'square'`**<br>
 * **`type TUR_PathOptionSet = {`**<br>
-  **`  x?:TUR_Location, y?:TUR_Location, Direction?:TUR_Angle,`**<br>
-  **`  Width?:TUR_Dimension, Color?:TUR_Color,`**<br>
-  **`  Lineature?:TUR_Lineature, Join?:TUR_Join, Cap?:TUR_Cap`**<br>
-  **`}`**`**<br>
+  &nbsp; **`x?:TUR_Location, y?:TUR_Location, Direction?:TUR_Angle,`**<br>
+  &nbsp; **`Width?:TUR_Dimension, Color?:TUR_Color,`**<br>
+  &nbsp; **`Lineature?:TUR_Lineature, Join?:TUR_Join, Cap?:TUR_Cap`**<br>
+  **`}`**<br>
 * **`type TUR_Position = { x:TUR_Location, y:TUR_Location }`**<br>
 * **`type TUR_Alignment = { x:TUR_Location, y:TUR_Location, Direction:TUR_Angle }`**<br>
 
