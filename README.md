@@ -132,11 +132,11 @@ A [trivial example](https://svelte.dev/repl/e3d91abc0a3d4a6fb2204b8e756e3b3c) is
 * **`public asSVG (`**<br>
   &nbsp; **`Unit?:'px'|'mm'|'cm'|'in',`**<br>
   &nbsp; **`xMin?:number,yMin?:number, xMax?:number,yMax?:number`**<br>
-  **`):string`**<br>*()*
+  **`):string`**<br>*(returns SVG code for given Graphic instance, estimates viewport from defined paths, xMin, xMax, yMin and yMax may be used to explicitly set viewport limits, viewport size is rendered using the given unit (which defaults to "px")*
 * **`public asSVGwith72dpi (`**<br>
   &nbsp; **`Unit?:'px'|'mm'|'cm'|'in',`**<br>
   &nbsp; **`xMin?:number,yMin?:number, xMax?:number,yMax?:number`**<br>
-  **`):string`**<br>*()*
+  **`):string`**<br>*(like "asSVG" but scales output such that numbers are multiples of 1/72 inch (depending on the given unit which defaults to "mm")*
 
 ## Usage with "Cricut Design Space" ##
 
