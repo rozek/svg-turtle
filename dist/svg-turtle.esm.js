@@ -576,7 +576,7 @@ var Graphic = /** @class */ (function () {
             this.minX = this.maxX = this.minY = this.maxY = 0;
         }
         if (Unit == null) {
-            Unit = 'mm';
+            Unit = 'px';
         }
         if (xMin == null) {
             xMin = this.minX;
