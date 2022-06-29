@@ -95,6 +95,13 @@ export declare class Graphic {
     currentAlignment(): TUR_Alignment;
     /**** alignAt ****/
     alignAt(Alignment: TUR_Alignment): Graphic;
+    /**** Limits ****/
+    Limits(): {
+        xMin: number;
+        yMin: number;
+        xMax: number;
+        yMax: number;
+    };
     /**** asSVG ****/
     asSVG(Unit?: 'px' | 'mm' | 'cm' | 'in', xMin?: number, yMin?: number, xMax?: number, yMax?: number): string;
     /**** asSVGwith72dpi ****/

@@ -560,6 +560,13 @@ var Graphic = /** @class */ (function () {
         }
         return this;
     };
+    /**** Limits ****/
+    Graphic.prototype.Limits = function () {
+        return {
+            xMin: this.minX || 0, yMin: this.minY || 0,
+            xMax: this.maxX || 0, yMax: this.maxY || 0
+        };
+    };
     /**** asSVG ****/
     Graphic.prototype.asSVG = function (Unit, xMin, yMin, xMax, yMax) {
         allowOneOf('SVG unit', Unit, ['px', 'mm', 'cm', 'in']);
