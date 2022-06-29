@@ -144,7 +144,7 @@ A [simple example](https://svelte.dev/repl/e3d91abc0a3d4a6fb2204b8e756e3b3c) is 
 
 The "Cricut Design Space" does not respect any units given in an SVG's `width` and `height` attributes but expects the numeric coordinates to be multiples of 1/72 of an inch. It is therefore recommended to export any turtle graphics using the `asSVGwith72dpi` method which scales the output as required by the application.
 
-*(upload SVG, place on canvas, "detach" into separate paths, select paths and assign tools, if need be: duplicate and align - e.g., for multiple scoring rounds, attach all paths again for proper positioning on mat)*
+*(upload SVG, place on canvas, "ungroup" into separate paths, select paths and assign tools, if need be: duplicate and align - e.g., for multiple scoring rounds, attach all paths again for proper positioning on mat)*
 
 
 ## Build Instructions ##
