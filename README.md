@@ -158,16 +158,11 @@ The "Cricut Design Space" does not respect any units given in an SVG's `width` a
     <td><img src="./img/KochCurve.png" alt="KochCurve"/></td>
   </tr>
   <tr>
-    <td>[Hexagon](https://svelte.dev/repl/a1cbbe486cc14b059e3928841df647ae)</td>
-    <td>[Star](https://svelte.dev/repl/6069788738e94544bb2b0adc014fa45a)</td>
-    <td>[Koch Curve](https://svelte.dev/repl/eb2d4448c73a4f57998982d6d7f64e9e)</td>
+    <td><a href="https://svelte.dev/repl/a1cbbe486cc14b059e3928841df647ae">Hexagon</a></td>
+    <td><a href="https://svelte.dev/repl/6069788738e94544bb2b0adc014fa45a">Star</a></td>
+    <td><a href="https://svelte.dev/repl/eb2d4448c73a4f57998982d6d7f64e9e">Koch Curve</a></td>
   </tr>
 </tbody></table>
-
-
-A [simple example](https://svelte.dev/repl/e3d91abc0a3d4a6fb2204b8e756e3b3c) is available on the Svelte REPL - feel free to play with it!
-
-<img src="./img/simpleExample.png" alt="simple Example"/>
 
 ## Build Instructions ##
 
