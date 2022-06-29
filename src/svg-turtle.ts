@@ -433,6 +433,17 @@
       return this
     }
 
+  /**** Limits ****/
+
+    public Limits ():{
+      xMin:number, yMin:number, xMax:number,yMax:number
+    } {
+      return {
+        xMin:this.minX || 0, yMin:this.minY || 0,
+        xMax:this.maxX || 0, yMax:this.maxY || 0
+      }
+    }
+
   /**** asSVG ****/
 
     public asSVG (
