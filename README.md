@@ -151,6 +151,8 @@ The "Cricut Design Space" does not respect any units given in an SVG's `width` a
 
 ## Further Examples ##
 
+All of them can be found on the Svelte REPL - ready to play with!
+
 <table><tbody>
   <tr>
     <td><img src="./img/Hexagon.png" alt="Hexagon"/></td>
