@@ -131,6 +131,7 @@ A [simple example](https://svelte.dev/repl/e3d91abc0a3d4a6fb2204b8e756e3b3c) is 
 * **`positionAt (Position:TUR_Position):Graphic`**<br>*(moves turtle to the given position without changing its direction)*
 * **`currentAlignment ():TUR_Alignment`**<br>*(returns the current turtle position and orientation, may be used to explicitly move turtle to this position later)*
 * **`alignAt (Alignment:TUR_Alignment):Graphic`**<br>*(moves turtle to the given position and changes its direction)*
+*  **`Limits ():{ xMin:number, yMin:number, xMax:number, yMax:number}`**<br>*(returns current estimated viewport limits)*
 * **`public asSVG (`**<br>
   &nbsp; **`Unit?:'px'|'mm'|'cm'|'in',`**<br>
   &nbsp; **`xMin?:number,yMin?:number, xMax?:number,yMax?:number`**<br>
