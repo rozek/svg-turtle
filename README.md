@@ -88,7 +88,7 @@ A [simple example](https://svelte.dev/repl/e3d91abc0a3d4a6fb2204b8e756e3b3c) is 
 
 <img src="./img/simpleExample.png" alt="simple Example"/>
 
-More examples can be found below.
+More examples can be found [below](#further-examples).
 
 ## API Reference ##
 
