@@ -99,10 +99,10 @@ More examples can be found [below](#further-examples).
 * **`type TUR_Location = number`**<br>represents an optionally signed finite number to be used as an x or y coordinate
 * **`type TUR_Dimension = number`**<br>represents a finite number ≥ 0 to be used as a dimension (i.e., width or height)
 * **`type TUR_Angle = number`**<br>represents an optionally signed finite number to be used as an angle (given in degrees)
-* **`type TUR_Color = string`**<br>*(literal color specification, e.g. "red" or "#FF0000")*
-* **`type TUR_Lineature = 'solid'|'dotted'|'dashed'`**<br>*(specifies line type)*
-* **`type TUR_Join = 'bevel'|'miter'|'round'`**<br>*(specifies line join type)*
-* **`type TUR_Cap = 'butt'|'round'|'square'`**<br>*(specifies line end type)*
+* **`type TUR_Color = string`**<br>represents a literal CSS/SVG-compliant color specification (such as "red" or "#FF0000")
+* **`type TUR_Lineature = 'solid'|'dotted'|'dashed'`**<br>represents a specifies line type
+* **`type TUR_Join = 'bevel'|'miter'|'round'`**<br>represents a line join type
+* **`type TUR_Cap = 'butt'|'round'|'square'`**<br>represents a line end type
 * **`type TUR_PathOptionSet = {`**<br>
   &nbsp; **`x?:TUR_Location, y?:TUR_Location, Direction?:TUR_Angle,`**<br>
   &nbsp; **`Width?:TUR_Dimension, Color?:TUR_Color,`**<br>
