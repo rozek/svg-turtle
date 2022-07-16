@@ -107,7 +107,7 @@ More examples can be found [below](#further-examples).
   &nbsp; **`x?:TUR_Location, y?:TUR_Location, Direction?:TUR_Angle,`**<br>
   &nbsp; **`Width?:TUR_Dimension, Color?:TUR_Color,`**<br>
   &nbsp; **`Lineature?:TUR_Lineature, Join?:TUR_Join, Cap?:TUR_Cap`**<br>
-  **`}`**<br>represents aset of options which may be used to initialize a new path
+  **`}`**<br>represents a set of options which may be used to initialize a new path
 * **`type TUR_Position = { x:TUR_Location, y:TUR_Location }`**<br>represents a position of the turtle, given by its x and y coordinates - but whithout specifying its orientation
 * **`type TUR_Alignment = { x:TUR_Location, y:TUR_Location, Direction:TUR_Angle }`**<br>represents a position and orientation of the turtle, given by its x and y coordinates and its orientation measured (counter-clockwise) in degrees against the x-axis
 
