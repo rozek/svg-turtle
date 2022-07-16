@@ -97,8 +97,8 @@ More examples can be found [below](#further-examples).
 ### exported Types ###
 
 * **`type TUR_Location = number`**<br>represents an optionally signed finite number to be used as an x or y coordinate
-* **`type TUR_Dimension = number`**<br>*(finite positive number or 0, used for dimensions)*
-* **`type TUR_Angle = number`**<br>*(finite number, opt. signed, used for angles given in degrees)*
+* **`type TUR_Dimension = number`**<br>represents a finite number ≥ 0 to be used as a dimension (i.e., width or height)
+* **`type TUR_Angle = number`**<br>represents an optionally signed finite number to be used as an angle (given in degrees)
 * **`type TUR_Color = string`**<br>*(literal color specification, e.g. "red" or "#FF0000")*
 * **`type TUR_Lineature = 'solid'|'dotted'|'dashed'`**<br>*(specifies line type)*
 * **`type TUR_Join = 'bevel'|'miter'|'round'`**<br>*(specifies line join type)*
