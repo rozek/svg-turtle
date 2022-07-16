@@ -96,7 +96,7 @@ More examples can be found [below](#further-examples).
 
 ### exported Types ###
 
-* **`type TUR_Location = number`**<br>*(finite number, opt. signed, used for coordinates)*
+* **`type TUR_Location = number`**<br>represents an optionally signed finite number to be used as an x or y coordinate
 * **`type TUR_Dimension = number`**<br>*(finite positive number or 0, used for dimensions)*
 * **`type TUR_Angle = number`**<br>*(finite number, opt. signed, used for angles given in degrees)*
 * **`type TUR_Color = string`**<br>*(literal color specification, e.g. "red" or "#FF0000")*
