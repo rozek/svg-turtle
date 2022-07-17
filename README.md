@@ -104,7 +104,7 @@ A **typical workflow** looks as follows:
 
 * **`type TUR_Location = number`**<br>represents an optionally signed finite number to be used as an x or y coordinate
 * **`type TUR_Dimension = number`**<br>represents a finite number ≥ 0 to be used as a dimension (i.e., width or height)
-* **`type TUR_Angle = number`**<br>represents an optionally signed finite number to be used as an angle (given in degrees)
+* **`type TUR_Angle = number`**<br>represents an optionally signed finite number to be used as an angle (given in degrees, positive values rotate clockwise, negative ones counterclockwise)
 * **`type TUR_Color = string`**<br>represents a literal CSS/SVG-compliant color specification (such as "red" or "#FF0000")
 * **`type TUR_Lineature = 'solid'|'dotted'|'dashed'`**<br>represents a specifies line type
 * **`type TUR_Join = 'bevel'|'miter'|'round'`**<br>represents a line join type
@@ -115,7 +115,7 @@ A **typical workflow** looks as follows:
   &nbsp; **`Lineature?:TUR_Lineature, Join?:TUR_Join, Cap?:TUR_Cap`**<br>
   **`}`**<br>represents a set of options which may be used to initialize a new path
 * **`type TUR_Position = { x:TUR_Location, y:TUR_Location }`**<br>represents a position of the turtle, given by its x and y coordinates - but whithout specifying its orientation
-* **`type TUR_Alignment = { x:TUR_Location, y:TUR_Location, Direction:TUR_Angle }`**<br>represents a position and orientation of the turtle, given by its x and y coordinates and its orientation measured (counter-clockwise) in degrees against the x-axis
+* **`type TUR_Alignment = { x:TUR_Location, y:TUR_Location, Direction:TUR_Angle }`**<br>represents a position and orientation of the turtle, given by its x and y coordinates and its orientation measured in degrees against the x-axis (positive values describe a clockwise, negative ones a counterclockwise rotation)
 
 ### Class Graphic ###
 
@@ -133,7 +133,7 @@ Many methods return the instance they were applied to in the end - this may be u
 
 * **`reset ():Graphic`**<br>sets turtle position, orientation and line properties to their defaults (as shown above)
 * **`beginPath (PathOptionSet?:TUR_PathOptionSet):Graphic`**<br>starts a new path, beginning with the current turtle position,  orientation and line properties, optionally overwritten by any settings given in `PathOptionSet`
-* **`turn (Anglee:TUR_Angle):Graphic`**<br>rotates the turtle relative to its current direction by the given `Angle` (specified in degrees). Positive angles turn clockwise, negative counterclockwise. This method may be invoked outside an active path
+* **`turn (Anglee:TUR_Angle):Graphic`**<br>rotates the turtle relative to its current direction by the given `Angle` (specified in degrees). Positive angles rotate clockwise, negative ones counterclockwise. This method may be invoked outside an active path
 * **`turnTo (Angle:TUR_Angle):Graphic`**<br>*(rotates turtle absolutely to given Angle given in degrees - measured from the x-axis, positive angles turn clockwise, negative counterclockwise, may be invoked outside an active path)*
 * **`turnLeft (Angle:TUR_Angle):Graphic`**<br>*(rotates the turtle counterclockwise by given Angle given in degrees, equivalent to turn(-Angle), may be invoked outside an active path)*
 * **`turnRight (Angle:TUR_Angle):Graphic`**<br>*(rotates the turtle clockwise by given Angle given in degrees, synonym for turn(Angle), may be invoked outside an active path)*
