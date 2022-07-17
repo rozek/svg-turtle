@@ -94,7 +94,9 @@ More examples can be found [below](#further-examples).
 
 As shown in the code examples above, every graphic is represented by an instance of class `Graphic` - each of which may contain multiple "paths".
 
-A typical workflow looks as follows:
+Many methods return the instance they were applied to in the end - this may be used to directly concatenate multiple method invocations (sometimes called a **fluent API**)
+
+A **typical workflow** looks as follows:
 
 * create an instance of class `Graphic`,
 * define one or multiple "paths",
