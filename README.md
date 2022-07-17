@@ -92,7 +92,13 @@ More examples can be found [below](#further-examples).
 
 ## API Reference ##
 
-*(graphic represented by instance of class Graphic, may contain multiple paths, usual workflow: instantiate, define paths, render as SVG, if need be: with proper scaling for cutting plotters 72dpi)*
+As shown in the code examples above, every graphic is represented by an instance of class `Graphic` - each of which may contain multiple "paths".
+
+A typical workflow looks as follows:
+
+* create an instance of class `Graphic`,
+* define one or multiple "paths",
+* render the instance as SVG - if need be, with proper scaling for cutting plotters
 
 ### exported Types ###
 
