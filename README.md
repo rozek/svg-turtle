@@ -94,8 +94,6 @@ More examples can be found [below](#further-examples).
 
 As shown in the code examples above, every graphic is represented by an instance of class `Graphic` - each of which may contain multiple "paths".
 
-Many methods return the instance they were applied to in the end - this may be used to directly concatenate multiple method invocations (sometimes called a **fluent API**)
-
 A **typical workflow** looks as follows:
 
 * create an instance of class `Graphic`,
@@ -121,7 +119,17 @@ A **typical workflow** looks as follows:
 
 ### Class Graphic ###
 
-*(parameterless constructor, fluent interface: many methods return the instance they act on for immediate concatenation)*
+Class `Graphic` has a single, parameterless constructor. After instantiation (or, later, after a reset), its settings contain the following defaults:
+
+* `x,y`: `0,0` (at coordinate origin)
+* `Direction`: `0` (in direction of the x-axis)<br>&nbsp;
+* `Width`: 1
+* `Color`: `#000000`
+* `Lineature`: `solid`
+* `Join`: `round`
+* `Cap`: `round`
+
+Many methods return the instance they were applied to in the end - this may be used to immediately concatenate multiple method invocations (sometimes called a **fluent API**)
 
 * **`reset ():Graphic`**<br>*(sets turtle position, orientation and line options to their defaults)*
 * **`beginPath (PathOptionSet?:TUR_PathOptionSet):Graphic`**<br>*(starts a new path, beginning with current turtle position,  orientation and line options overwritten by any settings from PathOptionSet)*
