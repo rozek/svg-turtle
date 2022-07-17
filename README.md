@@ -119,7 +119,7 @@ A **typical workflow** looks as follows:
 
 ### Class Graphic ###
 
-Class `Graphic` has a single, parameterless constructor. After instantiation (or, later, after a reset), its settings contain the following defaults:
+Class `Graphic` has a single, parameterless constructor. After instantiation (or, later, after a `reset`), its settings contain the following defaults:
 
 * `x,y`: `0,0` (at coordinate origin)
 * `Direction`: `0` (in direction of the x-axis)<br>&nbsp;
@@ -131,9 +131,9 @@ Class `Graphic` has a single, parameterless constructor. After instantiation (or
 
 Many methods return the instance they were applied to in the end - this may be used to immediately concatenate multiple method invocations (sometimes called a **fluent API**)
 
-* **`reset ():Graphic`**<br>*(sets turtle position, orientation and line options to their defaults)*
-* **`beginPath (PathOptionSet?:TUR_PathOptionSet):Graphic`**<br>*(starts a new path, beginning with current turtle position,  orientation and line options overwritten by any settings from PathOptionSet)*
-* **`turn (Anglee:TUR_Angle):Graphic`**<br>*(rotates turtle relatively by given Angle given in degrees, positive angles turn clockwise, negative counterclockwise, may be invoked outside an active path)*
+* **`reset ():Graphic`**<br>sets turtle position, orientation and line options to their defaults (as shown above)
+* **`beginPath (PathOptionSet?:TUR_PathOptionSet):Graphic`**<br>starts a new path, beginning with the current turtle position,  orientation and line properties, optionally overwritten by any settings given in `PathOptionSet`
+* **`turn (Anglee:TUR_Angle):Graphic`**<br>rotates turtle relative to the current direction by the given `Angle` (specified in degrees). Positive angles turn clockwise, negative counterclockwise. This method may be invoked outside an active path
 * **`turnTo (Angle:TUR_Angle):Graphic`**<br>*(rotates turtle absolutely to given Angle given in degrees - measured from the x-axis, positive angles turn clockwise, negative counterclockwise, may be invoked outside an active path)*
 * **`turnLeft (Angle:TUR_Angle):Graphic`**<br>*(rotates turtle counterclockwise by given Angle given in degrees, equivalent to turn(-Angle), may be invoked outside an active path)*
 * **`turnRight (Angle:TUR_Angle):Graphic`**<br>*(rotates turtle clockwise by given Angle given in degrees, synonym for turn(Angle), may be invoked outside an active path)*
