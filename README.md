@@ -178,11 +178,13 @@ Now, you should
 If need be, you may also
 
 * duplicate selected paths (for multiple cutting or scoring rounds) and then
-* align all duplicates to their original left and top edge
+* align all duplicates to their original left and top edges
 
-Before printing, you should also
+Before plotting, you should not forget to
 
 * attach all paths again for proper positioning on mat
+
+Your project is now ready to be sent to your plotter.
 
 ## Further Examples ##
 
