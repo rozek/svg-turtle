@@ -153,11 +153,11 @@ Many methods return the instance they were applied to in the end - this may be u
 * **`public asSVG (`**<br>
   &nbsp; **`Unit?:'px'|'mm'|'cm'|'in',`**<br>
   &nbsp; **`xMin?:number,yMin?:number, xMax?:number,yMax?:number`**<br>
-  **`):string`**<br>returns the SVG code for given `Graphic` instance with all its paths, using the given `xMin`, `xMax`, `yMin` and `yMax` values as viewport limits - any missing limit is estimated from the paths the `Graphic` instance contains. The viewport size is rendered using the given `Unit` (which defaults to "px")
+  **`):string`**<br>returns the SVG code for underlying `Graphic` instance and all its paths, using the given `xMin`, `xMax`, `yMin` and `yMax` values as viewport limits - any missing limit is estimated from the paths the `Graphic` instance contains. If the target system (e.g., a web browser) supports it, the resulting SVG will rendered using the given `Unit` (which defaults to `px`)
 * **`public asSVGwith72dpi (`**<br>
   &nbsp; **`Unit?:'px'|'mm'|'cm'|'in',`**<br>
   &nbsp; **`xMin?:number,yMin?:number, xMax?:number,yMax?:number`**<br>
-  **`):string`**<br>*(like "asSVG" but scales output such that numbers are multiples of 1/72 inch (depending on the given unit which defaults to "mm")*
+  **`):string`**<br>returns the SVG code for underlying `Graphic` instance and all its paths, using the given `xMin`, `xMax`, `yMin` and `yMax` values as viewport limits - any missing limit is estimated from the paths the `Graphic` instance contains. in contrast to `asSVG`, this method scales the output such that all coordinates and dimensions are multiples of 1/72 inch (depending on the given unit which defaults to `mm`)
 
 ## Usage with "Cricut Design Space" ##
 
