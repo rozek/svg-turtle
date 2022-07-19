@@ -124,6 +124,20 @@
     private currentJoin:TUR_Join           = 'round'
     private currentCap:TUR_Cap             = 'round'
 
+  /**** _initialize ****/
+
+    private _initialize ():void {
+      if (this.currentX         == null) { this.currentX         = 0 }
+      if (this.currentY         == null) { this.currentY         = 0 }
+      if (this.currentDirection == null) { this.currentDirection = 0 }
+
+      if (this.currentWidth     == null) { this.currentWidth     = 1 }
+      if (this.currentColor     == null) { this.currentColor     = '#000000' }
+      if (this.currentLineature == null) { this.currentLineature = 'solid' }
+      if (this.currentJoin      == null) { this.currentJoin      = 'round' }
+      if (this.currentCap       == null) { this.currentCap       = 'round' }
+    }
+
   /**** reset ****/
 
     public reset ():Graphic {
@@ -149,15 +163,17 @@
         this.endPath()
       }
 
+      this._initialize()
+
       if (PathOptionSet != null) {
-        if ('x'         in PathOptionSet) { this.currentX         = PathOptionSet.x as TUR_Location }
-        if ('y'         in PathOptionSet) { this.currentY         = PathOptionSet.y as TUR_Location }
-        if ('Direction' in PathOptionSet) { this.currentDirection = PathOptionSet.Direction as TUR_Angle }
-        if ('Width'     in PathOptionSet) { this.currentWidth     = PathOptionSet.Width as TUR_Dimension }
-        if ('Color'     in PathOptionSet) { this.currentColor     = PathOptionSet.Color as TUR_Color }
-        if ('Lineature' in PathOptionSet) { this.currentLineature = PathOptionSet.Lineature as TUR_Lineature }
-        if ('Join'      in PathOptionSet) { this.currentJoin      = PathOptionSet.Join as TUR_Join }
-        if ('Cap'       in PathOptionSet) { this.currentCap       = PathOptionSet.Cap as TUR_Cap }
+        if (PathOptionSet.x         != null) { this.currentX         = PathOptionSet.x as TUR_Location }
+        if (PathOptionSet.y         != null) { this.currentY         = PathOptionSet.y as TUR_Location }
+        if (PathOptionSet.Direction != null) { this.currentDirection = PathOptionSet.Direction as TUR_Angle }
+        if (PathOptionSet.Width     != null) { this.currentWidth     = PathOptionSet.Width as TUR_Dimension }
+        if (PathOptionSet.Color     != null) { this.currentColor     = PathOptionSet.Color as TUR_Color }
+        if (PathOptionSet.Lineature != null) { this.currentLineature = PathOptionSet.Lineature as TUR_Lineature }
+        if (PathOptionSet.Join      != null) { this.currentJoin      = PathOptionSet.Join as TUR_Join }
+        if (PathOptionSet.Cap       != null) { this.currentCap       = PathOptionSet.Cap as TUR_Cap }
       }
 
       if (this.minX == null) {
@@ -254,7 +270,6 @@
 
       if (this.currentPath != null) {
         this.currentPath += 'M ' + rounded(x) + ',' + rounded(y) + ' '
-        this.updateBoundingBox()
       }
 
       return this
@@ -284,12 +299,20 @@
         this.beginPath()
       }
 
+      this._updateBoundingBox(
+        this.currentX-this.currentWidth, this.currentX+this.currentWidth,
+        this.currentY-this.currentWidth, this.currentY+this.currentWidth
+      )
+
       this.currentX = x
       this.currentY = y
 
       this.currentPath += 'L ' + rounded(x) + ',' + rounded(y) + ' '
 
-      this.updateBoundingBox()
+      this._updateBoundingBox(
+        this.currentX-this.currentWidth, this.currentX+this.currentWidth,
+        this.currentY-this.currentWidth, this.currentY+this.currentWidth
+      )
 
       return this
     }
@@ -299,66 +322,135 @@
     public curveLeft (
       Angle:TUR_Angle, rx:TUR_Dimension, ry?:TUR_Dimension
     ):Graphic {
-      return this.curve(Angle, rx,ry, 0 )
+      return this._curve(Angle, rx,ry, false)
     }
 
     public curveRight (
       Angle:TUR_Angle, rx:TUR_Dimension, ry?:TUR_Dimension
     ):Graphic {
-      return this.curve(Angle, rx,ry, 1 )
+      return this._curve(Angle, rx,ry, true)
     }
 
-  /**** curve ****/
+  /**** _curve ****/
 
-    private curve (
-      Angle:TUR_Angle, rx:TUR_Dimension, ry:TUR_Dimension|undefined, clockwise:0|1
+    private _curve (
+      Angle:TUR_Angle, rx:TUR_Dimension, ry:TUR_Dimension|undefined,
+      clockwise:boolean
     ):Graphic {
       expectFiniteNumber('turn angle',Angle)
       expectFiniteNumber  ('x radius',rx)
       allowFiniteNumber   ('y radius',ry)
+        if (ry == null) { ry = rx }
 
-      if (ry == null) { ry = rx }
+      let absAngle = Math.abs(Angle)
+      if (absAngle < 1e-6) { return this }
+
+      const pi      = Math.PI;    const sin = Math.sin
+      const deg2rad = pi/180;     const cos = Math.cos
 
       if (this.currentPath == null) {
         this.beginPath()
       }
 
-      let AngleInRadians = Angle * Math.PI/180
-
-      Angle = Angle % 360
-      let largeArc = (Math.abs(Angle) < 180 ? 0 : 1)
+    /**** fix ellipse starting point ****/
 
       let x0 = this.currentX
       let y0 = this.currentY
 
+      this._updateBoundingBox(
+        x0-this.currentWidth, x0+this.currentWidth,
+        y0-this.currentWidth, y0+this.currentWidth
+      )
+
+    /**** compute ellipse center ****/
+
       let Direction          = this.currentDirection
-      let DirectionInRadians = Direction * Math.PI/180
-      let NormalInRadians    = DirectionInRadians + (clockwise === 1 ? Math.PI/2 : -Math.PI/2)
+      let DirectionInRadians = Direction * deg2rad
 
-      let cx = x0 + ry * Math.cos(NormalInRadians)
-      let cy = y0 + ry * Math.sin(NormalInRadians)
+      let NormalInRadians = DirectionInRadians + (clockwise ? pi/2 : -pi/2)
 
-      let RotationInRadians = (
-        DirectionInRadians - (clockwise === 1 ? Math.PI/2 : -Math.PI/2) +
-        AngleInRadians * (clockwise === 1 ? 1 : -1)
+      let cx = x0 + ry * cos(NormalInRadians)                // "ry" is correct!
+      let cy = y0 + ry * sin(NormalInRadians)                            // dto.
+
+    /**** compute ellipse end point ****/
+
+      let AngleInRadians = (
+        clockwise ? -pi/2 + Angle * deg2rad : pi/2 - Angle * deg2rad
       )
 
-      let x1 = cx + rx * Math.cos(RotationInRadians)
-      let y1 = cy + ry * Math.sin(RotationInRadians)
+      let auxX = rx * cos(AngleInRadians)
+      let auxY = ry * sin(AngleInRadians)
 
-      this.currentPath += (
-        'A ' + rounded(rx) + ' ' + rounded(ry) + ' ' +
-        rounded(Direction) + ' ' + largeArc + ' ' +
-        (Angle >= 0 ? clockwise : (clockwise === 0 ? 1 : 0)) + ' ' +
-        rounded(x1) + ',' + rounded(y1) + ' '
+      let x1 = cx + auxX * cos(DirectionInRadians) - auxY * sin(DirectionInRadians)
+      let y1 = cy + auxX * sin(DirectionInRadians) + auxY * cos(DirectionInRadians)
+
+    /**** construct SVG path ****/
+
+      let fullEllipse  = (absAngle >= 360)
+      let largeArcFlag = (absAngle >= 180 ? 1 : 0)
+      let SweepFlag    = (clockwise ? (Angle >= 0 ? 1 : 0) : (Angle >= 0 ? 0 : 1))
+
+      if (fullEllipse) {
+        auxX = cx + (cx-x0)
+        auxY = cy + (cy-y0)
+
+        this.currentPath += (
+          'A ' + rounded(rx) + ' ' + rounded(ry) + ' ' +
+          rounded(Direction) + ' 1 ' + SweepFlag + ' ' +
+          rounded(auxX) + ' ' + rounded(auxY) + ' '
+        ) + (
+          'A ' + rounded(rx) + ' ' + rounded(ry) + ' ' +
+          rounded(Direction) + ' 1 ' + SweepFlag + ' ' +
+          rounded(x0) + ' ' + rounded(y0) + ' '
+        ) + 'M ' + rounded(x1) + ' ' + rounded(y1) + ' '
+      } else {
+        this.currentPath += (
+          'A ' + rounded(rx) + ' ' + rounded(ry) + ' ' +
+          rounded(Direction) + ' ' + largeArcFlag + ' ' + SweepFlag + ' ' +
+          rounded(x1) + ' ' + rounded(y1) + ' '
+        )
+      }
+
+    /**** compute ellipse x/y bounds in rotated coordinate system ****/
+
+      let xMax = Math.sqrt(               // still centered at origin, not cx/cy
+        rx*rx * Math.pow(cos(DirectionInRadians),2) +
+        ry*ry * Math.pow(sin(DirectionInRadians),2)
+      )
+      let yMax = Math.sqrt(                                              // dto.
+        rx*rx * Math.pow(sin(DirectionInRadians),2) +
+        ry*ry * Math.pow(cos(DirectionInRadians),2)
       )
 
-      this.currentDirection += (Angle >= 0 ? Angle : 180+Angle) * (clockwise === 1 ? 1 : -1)
+    /**** rotate extremal points back into ellipse coordinates ****/
+
+      let maxX = xMax*cos(DirectionInRadians) - yMax*sin(DirectionInRadians)
+      let maxY = xMax*sin(DirectionInRadians) + yMax*cos(DirectionInRadians)
+
+    /**** compute extremal point angles and check if within arc ****/
+
+      let minAngleInRadians = (clockwise ? 0 : pi)
+      let maxAngleInRadians = (clockwise ? AngleInRadians : pi - AngleInRadians)
+
+      if (maxAngleInRadians < 0) {
+        minAngleInRadians += 2*pi
+        maxAngleInRadians += 2*pi
+      }
+
+
+
+
+    /**** update turtle ****/
+
+      this.currentDirection += (Angle >= 0 ? Angle : 180+Angle) * (clockwise ? 1 : -1)
 
       this.currentX = x1
       this.currentY = y1
 
-      this.updateBoundingBox()                                // *C* not perfect
+      this._updateBoundingBox(
+        x1-this.currentWidth, x1+this.currentWidth,
+        y1-this.currentWidth, y1+this.currentWidth
+      )
 
       return this
     }
@@ -523,14 +615,17 @@
       )
     }
 
-  /**** updateBoundingBox ****/
+  /**** _updateBoundingBox ****/
 
-    private updateBoundingBox ():void {
-      this.minX = Math.min(this.minX as TUR_Location,this.currentX)
-      this.maxX = Math.max(this.maxX as TUR_Location,this.currentX)
+    private _updateBoundingBox (
+      minX:TUR_Location, maxX:TUR_Location,
+      minY:TUR_Location, maxY:TUR_Location
+    ):void {
+      this.minX = Math.min(this.minX as TUR_Location,minX)
+      this.maxX = Math.max(this.maxX as TUR_Location,maxX)
 
-      this.minY = Math.min(this.minY as TUR_Location,this.currentY)
-      this.maxY = Math.max(this.maxY as TUR_Location,this.currentY)
+      this.minY = Math.min(this.minY as TUR_Location,minY)
+      this.maxY = Math.max(this.maxY as TUR_Location,maxY)
     }
   }
 
