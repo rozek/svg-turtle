@@ -554,6 +554,19 @@ var Graphic = /** @class */ (function () {
                 rounded(Direction) + ' ' + largeArcFlag + ' ' + SweepFlag + ' ' +
                 rounded(x1) + ' ' + rounded(y1) + ' ');
         }
+        /**** compute ellipse x/y bounds in rotated coordinate system ****/
+        var xMax = Math.sqrt(// still centered at origin, not cx/cy
+        rx * rx * Math.pow(cos(DirectionInRadians), 2) +
+            ry * ry * Math.pow(sin(DirectionInRadians), 2));
+        var yMax = Math.sqrt(// dto.
+        rx * rx * Math.pow(sin(DirectionInRadians), 2) +
+            ry * ry * Math.pow(cos(DirectionInRadians), 2));
+        if (fullEllipse) {
+            this._updateBoundingBox(cx + xMax - this.currentWidth, cx + xMax + this.currentWidth, cy + yMax - this.currentWidth, cy + yMax + this.currentWidth);
+            this._updateBoundingBox(cx - xMax - this.currentWidth, cx - xMax + this.currentWidth, cy + yMax - this.currentWidth, cy + yMax + this.currentWidth);
+            this._updateBoundingBox(cx + xMax - this.currentWidth, cx + xMax + this.currentWidth, cy - yMax - this.currentWidth, cy - yMax + this.currentWidth);
+            this._updateBoundingBox(cx - xMax - this.currentWidth, cx - xMax + this.currentWidth, cy - yMax - this.currentWidth, cy - yMax + this.currentWidth);
+        }
         /**** update turtle ****/
         this.currentDirection += (Angle >= 0 ? Angle : 180 + Angle) * (clockwise ? 1 : -1);
         this.currentX = x1;
