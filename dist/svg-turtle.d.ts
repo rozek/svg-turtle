@@ -58,6 +58,8 @@ export declare class Graphic {
     private currentLineature;
     private currentJoin;
     private currentCap;
+    /**** _initialize ****/
+    private _initialize;
     /**** reset ****/
     reset(): Graphic;
     /**** beginPath ****/
@@ -81,8 +83,8 @@ export declare class Graphic {
     /**** curveLeft/Right ****/
     curveLeft(Angle: TUR_Angle, rx: TUR_Dimension, ry?: TUR_Dimension): Graphic;
     curveRight(Angle: TUR_Angle, rx: TUR_Dimension, ry?: TUR_Dimension): Graphic;
-    /**** curve ****/
-    private curve;
+    /**** _curve ****/
+    private _curve;
     /**** endPath ****/
     endPath(): Graphic;
     /**** closePath ****/
@@ -106,6 +108,6 @@ export declare class Graphic {
     asSVG(Unit?: 'px' | 'mm' | 'cm' | 'in', xMin?: number, yMin?: number, xMax?: number, yMax?: number): string;
     /**** asSVGwith72dpi ****/
     asSVGwith72dpi(Unit?: 'px' | 'mm' | 'cm' | 'in', xMin?: number, yMin?: number, xMax?: number, yMax?: number): string;
-    /**** updateBoundingBox ****/
-    private updateBoundingBox;
+    /**** _updateBoundingBox ****/
+    private _updateBoundingBox;
 }

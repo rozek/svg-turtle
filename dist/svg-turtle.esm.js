@@ -332,6 +332,33 @@ var Graphic = /** @class */ (function () {
         this.currentJoin = 'round';
         this.currentCap = 'round';
     }
+    /**** _initialize ****/
+    Graphic.prototype._initialize = function () {
+        if (this.currentX == null) {
+            this.currentX = 0;
+        }
+        if (this.currentY == null) {
+            this.currentY = 0;
+        }
+        if (this.currentDirection == null) {
+            this.currentDirection = 0;
+        }
+        if (this.currentWidth == null) {
+            this.currentWidth = 1;
+        }
+        if (this.currentColor == null) {
+            this.currentColor = '#000000';
+        }
+        if (this.currentLineature == null) {
+            this.currentLineature = 'solid';
+        }
+        if (this.currentJoin == null) {
+            this.currentJoin = 'round';
+        }
+        if (this.currentCap == null) {
+            this.currentCap = 'round';
+        }
+    };
     /**** reset ****/
     Graphic.prototype.reset = function () {
         this.currentX = 0;
@@ -350,29 +377,30 @@ var Graphic = /** @class */ (function () {
         if (this.currentPath != null) {
             this.endPath();
         }
+        this._initialize();
         if (PathOptionSet != null) {
-            if ('x' in PathOptionSet) {
+            if (PathOptionSet.x != null) {
                 this.currentX = PathOptionSet.x;
             }
-            if ('y' in PathOptionSet) {
+            if (PathOptionSet.y != null) {
                 this.currentY = PathOptionSet.y;
             }
-            if ('Direction' in PathOptionSet) {
+            if (PathOptionSet.Direction != null) {
                 this.currentDirection = PathOptionSet.Direction;
             }
-            if ('Width' in PathOptionSet) {
+            if (PathOptionSet.Width != null) {
                 this.currentWidth = PathOptionSet.Width;
             }
-            if ('Color' in PathOptionSet) {
+            if (PathOptionSet.Color != null) {
                 this.currentColor = PathOptionSet.Color;
             }
-            if ('Lineature' in PathOptionSet) {
+            if (PathOptionSet.Lineature != null) {
                 this.currentLineature = PathOptionSet.Lineature;
             }
-            if ('Join' in PathOptionSet) {
+            if (PathOptionSet.Join != null) {
                 this.currentJoin = PathOptionSet.Join;
             }
-            if ('Cap' in PathOptionSet) {
+            if (PathOptionSet.Cap != null) {
                 this.currentCap = PathOptionSet.Cap;
             }
         }
@@ -441,7 +469,6 @@ var Graphic = /** @class */ (function () {
         this.currentY = y;
         if (this.currentPath != null) {
             this.currentPath += 'M ' + rounded(x) + ',' + rounded(y) + ' ';
-            this.updateBoundingBox();
         }
         return this;
     };
@@ -460,52 +487,78 @@ var Graphic = /** @class */ (function () {
         if (this.currentPath == null) {
             this.beginPath();
         }
+        this._updateBoundingBox(this.currentX - this.currentWidth, this.currentX + this.currentWidth, this.currentY - this.currentWidth, this.currentY + this.currentWidth);
         this.currentX = x;
         this.currentY = y;
         this.currentPath += 'L ' + rounded(x) + ',' + rounded(y) + ' ';
-        this.updateBoundingBox();
+        this._updateBoundingBox(this.currentX - this.currentWidth, this.currentX + this.currentWidth, this.currentY - this.currentWidth, this.currentY + this.currentWidth);
         return this;
     };
     /**** curveLeft/Right ****/
     Graphic.prototype.curveLeft = function (Angle, rx, ry) {
-        return this.curve(Angle, rx, ry, 0);
+        return this._curve(Angle, rx, ry, false);
     };
     Graphic.prototype.curveRight = function (Angle, rx, ry) {
-        return this.curve(Angle, rx, ry, 1);
+        return this._curve(Angle, rx, ry, true);
     };
-    /**** curve ****/
-    Graphic.prototype.curve = function (Angle, rx, ry, clockwise) {
+    /**** _curve ****/
+    Graphic.prototype._curve = function (Angle, rx, ry, clockwise) {
         expectFiniteNumber('turn angle', Angle);
         expectFiniteNumber('x radius', rx);
         allowFiniteNumber('y radius', ry);
         if (ry == null) {
             ry = rx;
         }
+        var absAngle = Math.abs(Angle);
+        if (absAngle < 1e-6) {
+            return this;
+        }
+        var pi = Math.PI;
+        var sin = Math.sin;
+        var deg2rad = pi / 180;
+        var cos = Math.cos;
         if (this.currentPath == null) {
             this.beginPath();
         }
-        var AngleInRadians = Angle * Math.PI / 180;
-        Angle = Angle % 360;
-        var largeArc = (Math.abs(Angle) < 180 ? 0 : 1);
+        /**** fix ellipse starting point ****/
         var x0 = this.currentX;
         var y0 = this.currentY;
+        this._updateBoundingBox(x0 - this.currentWidth, x0 + this.currentWidth, y0 - this.currentWidth, y0 + this.currentWidth);
+        /**** compute ellipse center ****/
         var Direction = this.currentDirection;
-        var DirectionInRadians = Direction * Math.PI / 180;
-        var NormalInRadians = DirectionInRadians + (clockwise === 1 ? Math.PI / 2 : -Math.PI / 2);
-        var cx = x0 + ry * Math.cos(NormalInRadians);
-        var cy = y0 + ry * Math.sin(NormalInRadians);
-        var RotationInRadians = (DirectionInRadians - (clockwise === 1 ? Math.PI / 2 : -Math.PI / 2) +
-            AngleInRadians * (clockwise === 1 ? 1 : -1));
-        var x1 = cx + rx * Math.cos(RotationInRadians);
-        var y1 = cy + ry * Math.sin(RotationInRadians);
-        this.currentPath += ('A ' + rounded(rx) + ' ' + rounded(ry) + ' ' +
-            rounded(Direction) + ' ' + largeArc + ' ' +
-            (Angle >= 0 ? clockwise : (clockwise === 0 ? 1 : 0)) + ' ' +
-            rounded(x1) + ',' + rounded(y1) + ' ');
-        this.currentDirection += (Angle >= 0 ? Angle : 180 + Angle) * (clockwise === 1 ? 1 : -1);
+        var DirectionInRadians = Direction * deg2rad;
+        var NormalInRadians = DirectionInRadians + (clockwise ? pi / 2 : -pi / 2);
+        var cx = x0 + ry * cos(NormalInRadians); // "ry" is correct!
+        var cy = y0 + ry * sin(NormalInRadians); // dto.
+        /**** compute ellipse end point ****/
+        var AngleInRadians = (clockwise ? -pi / 2 + Angle * deg2rad : pi / 2 - Angle * deg2rad);
+        var auxX = rx * cos(AngleInRadians);
+        var auxY = ry * sin(AngleInRadians);
+        var x1 = cx + auxX * cos(DirectionInRadians) - auxY * sin(DirectionInRadians);
+        var y1 = cy + auxX * sin(DirectionInRadians) + auxY * cos(DirectionInRadians);
+        /**** construct SVG path ****/
+        var fullEllipse = (absAngle >= 360);
+        var largeArcFlag = (absAngle >= 180 ? 1 : 0);
+        var SweepFlag = (clockwise ? (Angle >= 0 ? 1 : 0) : (Angle >= 0 ? 0 : 1));
+        if (fullEllipse) {
+            auxX = cx + (cx - x0);
+            auxY = cy + (cy - y0);
+            this.currentPath += ('A ' + rounded(rx) + ' ' + rounded(ry) + ' ' +
+                rounded(Direction) + ' 1 ' + SweepFlag + ' ' +
+                rounded(auxX) + ' ' + rounded(auxY) + ' ') + ('A ' + rounded(rx) + ' ' + rounded(ry) + ' ' +
+                rounded(Direction) + ' 1 ' + SweepFlag + ' ' +
+                rounded(x0) + ' ' + rounded(y0) + ' ') + 'M ' + rounded(x1) + ' ' + rounded(y1) + ' ';
+        }
+        else {
+            this.currentPath += ('A ' + rounded(rx) + ' ' + rounded(ry) + ' ' +
+                rounded(Direction) + ' ' + largeArcFlag + ' ' + SweepFlag + ' ' +
+                rounded(x1) + ' ' + rounded(y1) + ' ');
+        }
+        /**** update turtle ****/
+        this.currentDirection += (Angle >= 0 ? Angle : 180 + Angle) * (clockwise ? 1 : -1);
         this.currentX = x1;
         this.currentY = y1;
-        this.updateBoundingBox(); // *C* not perfect
+        this._updateBoundingBox(x1 - this.currentWidth, x1 + this.currentWidth, y1 - this.currentWidth, y1 + this.currentWidth);
         return this;
     };
     /**** endPath ****/
@@ -643,12 +696,12 @@ var Graphic = /** @class */ (function () {
             SVG +
             '</g></svg>');
     };
-    /**** updateBoundingBox ****/
-    Graphic.prototype.updateBoundingBox = function () {
-        this.minX = Math.min(this.minX, this.currentX);
-        this.maxX = Math.max(this.maxX, this.currentX);
-        this.minY = Math.min(this.minY, this.currentY);
-        this.maxY = Math.max(this.maxY, this.currentY);
+    /**** _updateBoundingBox ****/
+    Graphic.prototype._updateBoundingBox = function (minX, maxX, minY, maxY) {
+        this.minX = Math.min(this.minX, minX);
+        this.maxX = Math.max(this.maxX, maxX);
+        this.minY = Math.min(this.minY, minY);
+        this.maxY = Math.max(this.maxY, maxY);
     };
     return Graphic;
 }());
