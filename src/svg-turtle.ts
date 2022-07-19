@@ -422,23 +422,44 @@
         ry*ry * Math.pow(cos(DirectionInRadians),2)
       )
 
-    /**** rotate extremal points back into ellipse coordinates ****/
+      if (fullEllipse) {
+        this._updateBoundingBox(
+          cx+xMax-this.currentWidth, cx+xMax+this.currentWidth,
+          cy+yMax-this.currentWidth, cy+yMax+this.currentWidth
+        )
 
-      let maxX = xMax*cos(DirectionInRadians) - yMax*sin(DirectionInRadians)
-      let maxY = xMax*sin(DirectionInRadians) + yMax*cos(DirectionInRadians)
+        this._updateBoundingBox(
+          cx-xMax-this.currentWidth, cx-xMax+this.currentWidth,
+          cy+yMax-this.currentWidth, cy+yMax+this.currentWidth
+        )
 
-    /**** compute extremal point angles and check if within arc ****/
+        this._updateBoundingBox(
+          cx+xMax-this.currentWidth, cx+xMax+this.currentWidth,
+          cy-yMax-this.currentWidth, cy-yMax+this.currentWidth
+        )
 
-      let minAngleInRadians = (clockwise ? 0 : pi)
-      let maxAngleInRadians = (clockwise ? AngleInRadians : pi - AngleInRadians)
+        this._updateBoundingBox(
+          cx-xMax-this.currentWidth, cx-xMax+this.currentWidth,
+          cy-yMax-this.currentWidth, cy-yMax+this.currentWidth
+        )
+      } else {
+      /**** rotate extremal points back into ellipse coordinates ****/
 
-      if (maxAngleInRadians < 0) {
-        minAngleInRadians += 2*pi
-        maxAngleInRadians += 2*pi
+        let maxX = xMax*cos(DirectionInRadians) - yMax*sin(DirectionInRadians)
+        let maxY = xMax*sin(DirectionInRadians) + yMax*cos(DirectionInRadians)
+
+      /**** compute extremal point angles and check if within arc ****/
+
+        let minAngleInRadians = (clockwise ? 0 : pi)
+        let maxAngleInRadians = (clockwise ? AngleInRadians : pi - AngleInRadians)
+
+        if (maxAngleInRadians < 0) {
+          minAngleInRadians += 2*pi
+          maxAngleInRadians += 2*pi
+        }
+
+
       }
-
-
-
 
     /**** update turtle ****/
 
