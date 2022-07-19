@@ -561,13 +561,44 @@ var Graphic = /** @class */ (function () {
         var yMax = Math.sqrt(// dto.
         rx * rx * Math.pow(sin(DirectionInRadians), 2) +
             ry * ry * Math.pow(cos(DirectionInRadians), 2));
+        console.log(' ');
         for (var i = 0; i < 4; i++) {
             var xSign = (i % 2 === 0 ? 1 : -1);
             var ySign = (i < 2 ? 1 : -1);
-            var x = cx + xSign * xMax;
-            var y = cy + ySign * yMax;
+            var x = xSign * xMax;
+            var y = ySign * yMax;
+            var PointShouldBeUsed = void 0;
             if (fullEllipse) {
-                this._updateBoundingBox(x - this.currentWidth, x + this.currentWidth, y - this.currentWidth, y + this.currentWidth);
+                PointShouldBeUsed = true;
+            }
+            else {
+                /**** rotate extremal points back into ellipse coordinates ****/
+                var maxX = x * cos(-DirectionInRadians) - y * sin(-DirectionInRadians);
+                var maxY = x * sin(-DirectionInRadians) + y * cos(-DirectionInRadians);
+                maxX = maxX / rx;
+                maxY = maxY / ry;
+                /**** compute extremal point angles and check if within arc ****/
+                var PointAngleInRadians = Math.atan2(maxY, maxX);
+                var StartAngleInRadians = (clockwise ? -pi / 2 : pi / 2);
+                var EndAngleInRadians = AngleInRadians; // already computed
+                if ((StartAngleInRadians < -pi) || (EndAngleInRadians < -pi)) {
+                    StartAngleInRadians += 2 * pi; // that's sufficient, because...
+                    EndAngleInRadians += 2 * pi; // ..."fullEllipse" is false here
+                }
+                if (StartAngleInRadians > EndAngleInRadians) {
+                    var temp = StartAngleInRadians;
+                    StartAngleInRadians = EndAngleInRadians;
+                    EndAngleInRadians = temp;
+                }
+                PointShouldBeUsed = ( // common cases
+                (StartAngleInRadians <= PointAngleInRadians) &&
+                    (PointAngleInRadians <= EndAngleInRadians)) || ( // rare cases
+                (PointAngleInRadians < 0) &&
+                    (StartAngleInRadians <= PointAngleInRadians + 2 * pi) &&
+                    (PointAngleInRadians + 2 * pi <= EndAngleInRadians));
+            }
+            if (PointShouldBeUsed) {
+                this._updateBoundingBox(cx + x - this.currentWidth, cx + x + this.currentWidth, cy + y - this.currentWidth, cy + y + this.currentWidth);
             }
         }
         /**** update turtle ****/
