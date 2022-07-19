@@ -422,43 +422,34 @@
         ry*ry * Math.pow(cos(DirectionInRadians),2)
       )
 
-      if (fullEllipse) {
-        this._updateBoundingBox(
-          cx+xMax-this.currentWidth, cx+xMax+this.currentWidth,
-          cy+yMax-this.currentWidth, cy+yMax+this.currentWidth
-        )
+      for (let i = 0; i < 4; i++) {
+        let xSign = (i % 2 === 0 ? 1 : -1)
+        let ySign = (i < 2       ? 1 : -1)
 
-        this._updateBoundingBox(
-          cx-xMax-this.currentWidth, cx-xMax+this.currentWidth,
-          cy+yMax-this.currentWidth, cy+yMax+this.currentWidth
-        )
+        let x = cx + xSign*xMax
+        let y = cy + ySign*yMax
 
-        this._updateBoundingBox(
-          cx+xMax-this.currentWidth, cx+xMax+this.currentWidth,
-          cy-yMax-this.currentWidth, cy-yMax+this.currentWidth
-        )
+        if (fullEllipse) {
+          this._updateBoundingBox(
+            x-this.currentWidth, x+this.currentWidth,
+            y-this.currentWidth, y+this.currentWidth
+          )
+        } else {
+        /**** rotate extremal points back into ellipse coordinates ****/
 
-        this._updateBoundingBox(
-          cx-xMax-this.currentWidth, cx-xMax+this.currentWidth,
-          cy-yMax-this.currentWidth, cy-yMax+this.currentWidth
-        )
-      } else {
-      /**** rotate extremal points back into ellipse coordinates ****/
+          let maxX = xMax*cos(DirectionInRadians) - yMax*sin(DirectionInRadians)
+          let maxY = xMax*sin(DirectionInRadians) + yMax*cos(DirectionInRadians)
 
-        let maxX = xMax*cos(DirectionInRadians) - yMax*sin(DirectionInRadians)
-        let maxY = xMax*sin(DirectionInRadians) + yMax*cos(DirectionInRadians)
+        /**** compute extremal point angles and check if within arc ****/
 
-      /**** compute extremal point angles and check if within arc ****/
+          let minAngleInRadians = (clockwise ? 0 : pi)
+          let maxAngleInRadians = (clockwise ? AngleInRadians : pi - AngleInRadians)
 
-        let minAngleInRadians = (clockwise ? 0 : pi)
-        let maxAngleInRadians = (clockwise ? AngleInRadians : pi - AngleInRadians)
-
-        if (maxAngleInRadians < 0) {
-          minAngleInRadians += 2*pi
-          maxAngleInRadians += 2*pi
+          if (maxAngleInRadians < 0) {
+            minAngleInRadians += 2*pi
+            maxAngleInRadians += 2*pi
+          }
         }
-
-
       }
 
     /**** update turtle ****/
