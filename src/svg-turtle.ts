@@ -422,33 +422,59 @@
         ry*ry * Math.pow(cos(DirectionInRadians),2)
       )
 
+console.log(' ')
       for (let i = 0; i < 4; i++) {
         let xSign = (i % 2 === 0 ? 1 : -1)
         let ySign = (i < 2       ? 1 : -1)
 
-        let x = cx + xSign*xMax
-        let y = cy + ySign*yMax
+        let x = xSign*xMax
+        let y = ySign*yMax
 
+        let PointShouldBeUsed
         if (fullEllipse) {
-          this._updateBoundingBox(
-            x-this.currentWidth, x+this.currentWidth,
-            y-this.currentWidth, y+this.currentWidth
-          )
+          PointShouldBeUsed = true
         } else {
         /**** rotate extremal points back into ellipse coordinates ****/
 
-          let maxX = xMax*cos(DirectionInRadians) - yMax*sin(DirectionInRadians)
-          let maxY = xMax*sin(DirectionInRadians) + yMax*cos(DirectionInRadians)
+          let maxX = x * cos(-DirectionInRadians) - y * sin(-DirectionInRadians)
+          let maxY = x * sin(-DirectionInRadians) + y * cos(-DirectionInRadians)
+
+          maxX = maxX / rx
+          maxY = maxY / ry
 
         /**** compute extremal point angles and check if within arc ****/
 
-          let minAngleInRadians = (clockwise ? 0 : pi)
-          let maxAngleInRadians = (clockwise ? AngleInRadians : pi - AngleInRadians)
+          let PointAngleInRadians = Math.atan2(maxY,maxX)
 
-          if (maxAngleInRadians < 0) {
-            minAngleInRadians += 2*pi
-            maxAngleInRadians += 2*pi
+          let StartAngleInRadians = (clockwise ? -pi/2 : pi/2)
+          let EndAngleInRadians   = AngleInRadians           // already computed
+
+          if ((StartAngleInRadians < -pi) || (EndAngleInRadians < -pi)) {
+            StartAngleInRadians += 2*pi         // that's sufficient, because...
+            EndAngleInRadians   += 2*pi        // ..."fullEllipse" is false here
           }
+
+          if (StartAngleInRadians > EndAngleInRadians) {
+            let temp = StartAngleInRadians
+            StartAngleInRadians = EndAngleInRadians
+            EndAngleInRadians = temp
+          }
+
+          PointShouldBeUsed = (                                  // common cases
+            (StartAngleInRadians <= PointAngleInRadians) &&
+            (PointAngleInRadians <= EndAngleInRadians)
+          ) || (                                                   // rare cases
+            (PointAngleInRadians < 0) &&
+            (StartAngleInRadians <= PointAngleInRadians + 2*pi) &&
+            (PointAngleInRadians + 2*pi <= EndAngleInRadians)
+          )
+        }
+
+        if (PointShouldBeUsed) {
+          this._updateBoundingBox(
+            cx + x-this.currentWidth, cx + x+this.currentWidth,
+            cy + y-this.currentWidth, cy + y+this.currentWidth
+          )
         }
       }
 
