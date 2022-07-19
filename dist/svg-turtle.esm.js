@@ -561,11 +561,14 @@ var Graphic = /** @class */ (function () {
         var yMax = Math.sqrt(// dto.
         rx * rx * Math.pow(sin(DirectionInRadians), 2) +
             ry * ry * Math.pow(cos(DirectionInRadians), 2));
-        if (fullEllipse) {
-            this._updateBoundingBox(cx + xMax - this.currentWidth, cx + xMax + this.currentWidth, cy + yMax - this.currentWidth, cy + yMax + this.currentWidth);
-            this._updateBoundingBox(cx - xMax - this.currentWidth, cx - xMax + this.currentWidth, cy + yMax - this.currentWidth, cy + yMax + this.currentWidth);
-            this._updateBoundingBox(cx + xMax - this.currentWidth, cx + xMax + this.currentWidth, cy - yMax - this.currentWidth, cy - yMax + this.currentWidth);
-            this._updateBoundingBox(cx - xMax - this.currentWidth, cx - xMax + this.currentWidth, cy - yMax - this.currentWidth, cy - yMax + this.currentWidth);
+        for (var i = 0; i < 4; i++) {
+            var xSign = (i % 2 === 0 ? 1 : -1);
+            var ySign = (i < 2 ? 1 : -1);
+            var x = cx + xSign * xMax;
+            var y = cy + ySign * yMax;
+            if (fullEllipse) {
+                this._updateBoundingBox(x - this.currentWidth, x + this.currentWidth, y - this.currentWidth, y + this.currentWidth);
+            }
         }
         /**** update turtle ****/
         this.currentDirection += (Angle >= 0 ? Angle : 180 + Angle) * (clockwise ? 1 : -1);
