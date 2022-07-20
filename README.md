@@ -6,8 +6,6 @@ a turtle graphics library with SVG output
 
 <img src="./img/simpleBox.png" alt="simple box"/>
 
-**(this project is currently under active development, please stay tuned - it is planned to be finished by end of July)**
-
 **NPM users**: please consider the [Github README](https://github.com/rozek/svg-turtle/blob/main/README.md) for the latest description of this package (as updating the docs would otherwise always require a new NPM package version)
 
 > Just a small note: if you like this module and plan to use it, consider "starring" this repository (you will find the "Star" button on the top right of this page), so that I know which of my repositories to take most care of.
