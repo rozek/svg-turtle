@@ -487,11 +487,11 @@ var Graphic = /** @class */ (function () {
         if (this.currentPath == null) {
             this.beginPath();
         }
-        this._updateBoundingBox(this.currentX - this.currentWidth, this.currentX + this.currentWidth, this.currentY - this.currentWidth, this.currentY + this.currentWidth);
+        this._updateBoundingBox(this.currentX - this.currentWidth / 2, this.currentX + this.currentWidth / 2, this.currentY - this.currentWidth / 2, this.currentY + this.currentWidth / 2);
         this.currentX = x;
         this.currentY = y;
         this.currentPath += 'L ' + rounded(x) + ',' + rounded(y) + ' ';
-        this._updateBoundingBox(this.currentX - this.currentWidth, this.currentX + this.currentWidth, this.currentY - this.currentWidth, this.currentY + this.currentWidth);
+        this._updateBoundingBox(this.currentX - this.currentWidth / 2, this.currentX + this.currentWidth / 2, this.currentY - this.currentWidth / 2, this.currentY + this.currentWidth / 2);
         return this;
     };
     /**** curveLeft/Right ****/
@@ -523,7 +523,7 @@ var Graphic = /** @class */ (function () {
         /**** fix ellipse starting point ****/
         var x0 = this.currentX;
         var y0 = this.currentY;
-        this._updateBoundingBox(x0 - this.currentWidth, x0 + this.currentWidth, y0 - this.currentWidth, y0 + this.currentWidth);
+        this._updateBoundingBox(x0 - this.currentWidth / 2, x0 + this.currentWidth / 2, y0 - this.currentWidth / 2, y0 + this.currentWidth / 2);
         /**** compute ellipse center ****/
         var Direction = this.currentDirection;
         var DirectionInRadians = Direction * deg2rad;
@@ -555,13 +555,13 @@ var Graphic = /** @class */ (function () {
                 rounded(x1) + ' ' + rounded(y1) + ' ');
         }
         /**** compute ellipse x/y bounds in rotated coordinate system ****/
+        // see https://math.stackexchange.com/questions/91132/how-to-get-the-limits-of-rotated-ellipse
         var xMax = Math.sqrt(// still centered at origin, not cx/cy
         rx * rx * Math.pow(cos(DirectionInRadians), 2) +
             ry * ry * Math.pow(sin(DirectionInRadians), 2));
         var yMax = Math.sqrt(// dto.
         rx * rx * Math.pow(sin(DirectionInRadians), 2) +
             ry * ry * Math.pow(cos(DirectionInRadians), 2));
-        console.log(' ');
         for (var i = 0; i < 4; i++) {
             var xSign = (i % 2 === 0 ? 1 : -1);
             var ySign = (i < 2 ? 1 : -1);
@@ -598,14 +598,14 @@ var Graphic = /** @class */ (function () {
                     (PointAngleInRadians + 2 * pi <= EndAngleInRadians));
             }
             if (PointShouldBeUsed) {
-                this._updateBoundingBox(cx + x - this.currentWidth, cx + x + this.currentWidth, cy + y - this.currentWidth, cy + y + this.currentWidth);
+                this._updateBoundingBox(cx + x - this.currentWidth / 2, cx + x + this.currentWidth / 2, cy + y - this.currentWidth / 2, cy + y + this.currentWidth / 2);
             }
         }
         /**** update turtle ****/
         this.currentDirection += (Angle >= 0 ? Angle : 180 + Angle) * (clockwise ? 1 : -1);
         this.currentX = x1;
         this.currentY = y1;
-        this._updateBoundingBox(x1 - this.currentWidth, x1 + this.currentWidth, y1 - this.currentWidth, y1 + this.currentWidth);
+        this._updateBoundingBox(x1 - this.currentWidth / 2, x1 + this.currentWidth / 2, y1 - this.currentWidth / 2, y1 + this.currentWidth / 2);
         return this;
     };
     /**** endPath ****/
