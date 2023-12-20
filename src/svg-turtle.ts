@@ -26,7 +26,7 @@
 
   export type TUR_PathOptionSet = {
     x?:TUR_Location, y?:TUR_Location, Direction?:TUR_Angle,
-    Width?:TUR_Dimension, Color?:TUR_Color,
+    Width?:TUR_Dimension, Color?:TUR_Color, Fill?:TUR_Color,
     Lineature?:TUR_Lineature, Join?:TUR_Join, Cap?:TUR_Cap
   }
 
@@ -89,6 +89,7 @@
       ((Value.Direction == null) || ValueIsFiniteNumber(Value.Direction)) &&
       ((Value.Width == null)     || ValueIsNumberInRange(Value.Width, 0)) &&
       ((Value.Color == null)     || ValueIsColor(Value.Color)) &&
+      ((Value.Fill == null)      || ValueIsColor(Value.Fill)) &&
       ((Value.Lineature == null) || ValueIsOneOf(Value.Lineature,TUR_Lineatures)) &&
       ((Value.Join == null)      || ValueIsOneOf(Value.Join,TUR_Joins)) &&
       ((Value.Cap == null)       || ValueIsOneOf(Value.Cap,TUR_Caps))
@@ -120,6 +121,7 @@
 
     private currentWidth:TUR_Dimension     = 1
     private currentColor:TUR_Color         = '#000000'
+    private currentFill:TUR_Color          = 'none'
     private currentLineature:TUR_Lineature = 'solid'
     private currentJoin:TUR_Join           = 'round'
     private currentCap:TUR_Cap             = 'round'
@@ -133,6 +135,7 @@
 
       if (this.currentWidth     == null) { this.currentWidth     = 1 }
       if (this.currentColor     == null) { this.currentColor     = '#000000' }
+      if (this.currentFill      == null) { this.currentFill      = 'none' }
       if (this.currentLineature == null) { this.currentLineature = 'solid' }
       if (this.currentJoin      == null) { this.currentJoin      = 'round' }
       if (this.currentCap       == null) { this.currentCap       = 'round' }
@@ -147,6 +150,7 @@
 
       this.currentWidth     = 1
       this.currentColor     = '#000000'
+      this.currentFill      = 'none'
       this.currentLineature = 'solid'
       this.currentJoin      = 'round'
       this.currentCap       = 'round'
@@ -171,6 +175,7 @@
         if (PathOptionSet.Direction != null) { this.currentDirection = PathOptionSet.Direction as TUR_Angle }
         if (PathOptionSet.Width     != null) { this.currentWidth     = PathOptionSet.Width as TUR_Dimension }
         if (PathOptionSet.Color     != null) { this.currentColor     = PathOptionSet.Color as TUR_Color }
+        if (PathOptionSet.Fill      != null) { this.currentFill      = PathOptionSet.Fill as TUR_Color }
         if (PathOptionSet.Lineature != null) { this.currentLineature = PathOptionSet.Lineature as TUR_Lineature }
         if (PathOptionSet.Join      != null) { this.currentJoin      = PathOptionSet.Join as TUR_Join }
         if (PathOptionSet.Cap       != null) { this.currentCap       = PathOptionSet.Cap as TUR_Cap }
@@ -182,7 +187,7 @@
       }
 
       this.currentPath = '<path ' +
-        'fill="none" ' +
+        'fill="'            + this.currentFill  + '" ' +
         'stroke="'          + this.currentColor + '" ' +
         'stroke-width="'    + this.currentWidth + '" ' +
         'stroke-linejoin="' + this.currentJoin  + '" ' +
