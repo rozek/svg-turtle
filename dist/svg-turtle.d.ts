@@ -1,28 +1,29 @@
-export declare type TUR_Location = number;
-export declare type TUR_Dimension = number;
-export declare type TUR_Angle = number;
-export declare type TUR_Color = string;
+export type TUR_Location = number;
+export type TUR_Dimension = number;
+export type TUR_Angle = number;
+export type TUR_Color = string;
 export declare const TUR_Lineatures: string[];
-export declare type TUR_Lineature = typeof TUR_Lineatures[number];
+export type TUR_Lineature = typeof TUR_Lineatures[number];
 export declare const TUR_Joins: string[];
-export declare type TUR_Join = typeof TUR_Joins[number];
+export type TUR_Join = typeof TUR_Joins[number];
 export declare const TUR_Caps: string[];
-export declare type TUR_Cap = typeof TUR_Caps[number];
-export declare type TUR_PathOptionSet = {
+export type TUR_Cap = typeof TUR_Caps[number];
+export type TUR_PathOptionSet = {
     x?: TUR_Location;
     y?: TUR_Location;
     Direction?: TUR_Angle;
     Width?: TUR_Dimension;
     Color?: TUR_Color;
+    Fill?: TUR_Color;
     Lineature?: TUR_Lineature;
     Join?: TUR_Join;
     Cap?: TUR_Cap;
 };
-export declare type TUR_Position = {
+export type TUR_Position = {
     x: TUR_Location;
     y: TUR_Location;
 };
-export declare type TUR_Alignment = {
+export type TUR_Alignment = {
     x: TUR_Location;
     y: TUR_Location;
     Direction: TUR_Angle;
@@ -55,6 +56,7 @@ export declare class Graphic {
     private currentDirection;
     private currentWidth;
     private currentColor;
+    private currentFill;
     private currentLineature;
     private currentJoin;
     private currentCap;
