@@ -1,19 +1,15 @@
 //----------------------------------------------------------------------------//
-/**** throwableError - simplifies construction of named errors ****/
-function throwableError(Message) {
+/**** throwError - simplifies construction of named errors ****/
+function throwError(Message) {
     var Match = /^([$a-zA-Z][$a-zA-Z0-9]*):\s*(\S.+)\s*$/.exec(Message);
     if (Match == null) {
-        return new Error(Message);
+        throw new Error(Message);
     }
     else {
         var namedError = new Error(Match[2]);
         namedError.name = Match[1];
-        return namedError;
+        throw namedError;
     }
-}
-/**** throwError - throws a named error ****/
-function throwError(Message) {
-    throw throwableError(Message);
 }
 /**** ValueIsNumber ****/
 function ValueIsNumber(Value) {
@@ -86,7 +82,7 @@ function validatedArgument(Description, Argument, ValueIsValid, NilIsAcceptable,
             return Argument;
         }
         else {
-            throwError("MissingArgument: no " + escaped(Description) + " given");
+            throwError("MissingArgument: no ".concat(escaped(Description), " given"));
         }
     }
     else {
@@ -101,7 +97,7 @@ function validatedArgument(Description, Argument, ValueIsValid, NilIsAcceptable,
             }
         }
         else {
-            throwError("InvalidArgument: the given " + escaped(Description) + " is no valid " + escaped(Expectation));
+            throwError("InvalidArgument: the given ".concat(escaped(Description), " is no valid ").concat(escaped(Expectation)));
         }
     }
 }
@@ -161,7 +157,7 @@ function allowOneOf(Description, Argument, ValueList) {
 /**** expect[ed]OneOf ****/
 function expectOneOf(Description, Argument, ValueList) {
     if (Argument == null) {
-        throwError("MissingArgument: no " + escaped(Description) + " given");
+        throwError("MissingArgument: no ".concat(escaped(Description), " given"));
     }
     if (ValueIsOneOf(Argument, ValueList)) {
         return ( // unboxes any primitives
@@ -170,7 +166,7 @@ function expectOneOf(Description, Argument, ValueList) {
             : Argument.valueOf());
     }
     else {
-        throwError("InvalidArgument: the given " + escaped(Description) + " is not among the supported values");
+        throwError("InvalidArgument: the given ".concat(escaped(Description), " is not among the supported values"));
     }
 }
 var expectedOneOf = expectOneOf;
@@ -311,6 +307,7 @@ function ValueIsPathOptionSet(Value) {
         ((Value.Direction == null) || ValueIsFiniteNumber(Value.Direction)) &&
         ((Value.Width == null) || ValueIsNumberInRange(Value.Width, 0)) &&
         ((Value.Color == null) || ValueIsColor(Value.Color)) &&
+        ((Value.Fill == null) || ValueIsColor(Value.Fill)) &&
         ((Value.Lineature == null) || ValueIsOneOf(Value.Lineature, TUR_Lineatures)) &&
         ((Value.Join == null) || ValueIsOneOf(Value.Join, TUR_Joins)) &&
         ((Value.Cap == null) || ValueIsOneOf(Value.Cap, TUR_Caps)));
@@ -328,6 +325,7 @@ var Graphic = /** @class */ (function () {
         this.currentDirection = 0;
         this.currentWidth = 1;
         this.currentColor = '#000000';
+        this.currentFill = 'none';
         this.currentLineature = 'solid';
         this.currentJoin = 'round';
         this.currentCap = 'round';
@@ -349,6 +347,9 @@ var Graphic = /** @class */ (function () {
         if (this.currentColor == null) {
             this.currentColor = '#000000';
         }
+        if (this.currentFill == null) {
+            this.currentFill = 'none';
+        }
         if (this.currentLineature == null) {
             this.currentLineature = 'solid';
         }
@@ -366,6 +367,7 @@ var Graphic = /** @class */ (function () {
         this.currentDirection = 0;
         this.currentWidth = 1;
         this.currentColor = '#000000';
+        this.currentFill = 'none';
         this.currentLineature = 'solid';
         this.currentJoin = 'round';
         this.currentCap = 'round';
@@ -394,6 +396,9 @@ var Graphic = /** @class */ (function () {
             if (PathOptionSet.Color != null) {
                 this.currentColor = PathOptionSet.Color;
             }
+            if (PathOptionSet.Fill != null) {
+                this.currentFill = PathOptionSet.Fill;
+            }
             if (PathOptionSet.Lineature != null) {
                 this.currentLineature = PathOptionSet.Lineature;
             }
@@ -409,7 +414,7 @@ var Graphic = /** @class */ (function () {
             this.minY = this.maxY = this.currentY;
         }
         this.currentPath = '<path ' +
-            'fill="none" ' +
+            'fill="' + this.currentFill + '" ' +
             'stroke="' + this.currentColor + '" ' +
             'stroke-width="' + this.currentWidth + '" ' +
             'stroke-linejoin="' + this.currentJoin + '" ' +
